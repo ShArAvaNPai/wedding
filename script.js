@@ -345,10 +345,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================
   // 5. LIVE COUNTDOWN TIMER
-  // Target: Sunday, 13th December 2026, 11:15 AM (Auspicious Muhurtham)
+  // Target: Sunday, 13th December 2026, 10:00 AM (Auspicious Muhurtham)
   // ==========================================
   function updateCountdown() {
-    const targetDate = new Date('2026-12-13T11:15:00').getTime();
+    const targetDate = new Date('2026-12-13T10:00:00').getTime();
     const now = new Date().getTime();
     const diff = targetDate - now;
 
