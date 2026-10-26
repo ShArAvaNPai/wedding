@@ -47,13 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (weddingVenueElem) weddingVenueElem.textContent = weddingState.weddingVenue;
     if (haldiDateElem) haldiDateElem.textContent = weddingState.haldiDate;
     if (poojaDateElem) poojaDateElem.textContent = weddingState.poojaDate;
-
-    // Update blessing button label
-    const blessBtn = document.getElementById('mandapBlessBtn');
-    if (blessBtn) {
-      const textElem = blessBtn.querySelector('.bless-text');
-      if (textElem) textElem.textContent = `Shower Blessings on ${weddingState.brideName} & ${weddingState.groomName}!`;
-    }
   }
   updatePageDetails();
 
@@ -385,128 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
 
   // ==========================================
-  // 6. EVENT CARD 1: INTERACTIVE HALDI UBTAN GAME
-  // ==========================================
-  const ubtanBowlBtn = document.getElementById('ubtanBowlBtn');
-  const haldiSpotsContainer = document.getElementById('haldiSpotsContainer');
-  const haldiCounter = document.getElementById('haldiCounter');
-  const haldiFeedbackMsg = document.getElementById('haldiFeedbackMsg');
-  const haldiAvatar = document.getElementById('haldiAvatar');
-
-  const haldiMessages = [
-    "A touch of golden sunshine for our bride Shraddha! ✨",
-    "Glow, Shraddha, glow! Turmeric looks breathtaking on you! 💛",
-    "Haldi swag level: Rising! Rotary Club Manipal is celebrating! 🌼",
-    "Warning: Extreme bridal radiance detected! 😍",
-    "Pranay is definitely going to be speechless! 😄",
-    "No cheeks left untouched! Perfect haldi joy! 🏵️",
-    "Radiance overload! Queen Shraddha of the Haldi! 👑",
-    "Auspicious blessings multiplying with each dab! 🪔",
-    "Pure golden goddess vibes! ✨💛✨",
-    "🎉 MAXIMUM HALDI RADIANCE ACHIEVED! Ready for Amrith Garden!"
-  ];
-
-  if (ubtanBowlBtn && haldiSpotsContainer) {
-    ubtanBowlBtn.addEventListener('click', () => {
-      weddingState.haldiDabs++;
-      playBellChime(440 + weddingState.haldiDabs * 25, 0.4);
-
-      // Create a haldi dab spot
-      const spot = document.createElement('div');
-      spot.className = 'haldi-spot';
-      // Random coordinates around bride face
-      const topPct = Math.random() * 50 + 20;
-      const leftPct = Math.random() * 50 + 25;
-      spot.style.top = `${topPct}%`;
-      spot.style.left = `${leftPct}%`;
-      haldiSpotsContainer.appendChild(spot);
-
-      // Update count & message
-      if (haldiCounter) {
-        haldiCounter.textContent = Math.min(weddingState.haldiDabs, 10);
-      }
-
-      const msgIndex = Math.min(weddingState.haldiDabs - 1, haldiMessages.length - 1);
-      if (haldiFeedbackMsg) {
-        haldiFeedbackMsg.textContent = haldiMessages[msgIndex];
-      }
-
-      // Add bounce to avatar
-      if (haldiAvatar) {
-        haldiAvatar.style.transform = 'scale(1.1)';
-        setTimeout(() => (haldiAvatar.style.transform = 'scale(1)'), 200);
-      }
-
-      // If reached 10, trigger golden celebration burst!
-      if (weddingState.haldiDabs === 10) {
-        triggerPetalBurst(50, width * 0.25, height * 0.6);
-      }
-    });
-  }
-
-  // ==========================================
-  // 7. EVENT CARD 2: SHOWER AKSHATA & BLESSINGS
-  // ==========================================
-  const mandapBlessBtn = document.getElementById('mandapBlessBtn');
-  const liveBlessingCount = document.getElementById('liveBlessingCount');
-
-  if (mandapBlessBtn) {
-    mandapBlessBtn.addEventListener('click', (e) => {
-      weddingState.blessingsCount++;
-      localStorage.setItem('wedding_blessings_tally', weddingState.blessingsCount);
-
-      if (liveBlessingCount) {
-        liveBlessingCount.textContent = weddingState.blessingsCount.toLocaleString();
-      }
-
-      // Visual feedback
-      mandapBlessBtn.style.transform = 'scale(0.95)';
-      setTimeout(() => (mandapBlessBtn.style.transform = 'scale(1)'), 150);
-
-      // Trigger blessing bell & petal shower
-      const rect = mandapBlessBtn.getBoundingClientRect();
-      triggerPetalBurst(35, rect.left + rect.width / 2, rect.top);
-      playBellChime(698.46, 1.4); // Auspicious temple chime
-    });
-  }
-
-  // ==========================================
-  // 8. EVENT CARD 3: SATYANARAYAN POOJA DIYA LIGHT
-  // ==========================================
-  const diyaFixture = document.getElementById('diyaFixture');
-  const diyaFlame = document.getElementById('diyaFlame');
-  const diyaHalo = document.getElementById('diyaHalo');
-  const diyaMantraBox = document.getElementById('diyaMantraBox');
-
-  if (diyaFixture && diyaFlame && diyaHalo) {
-    // Start with a soft lit flame
-    diyaFlame.classList.add('lit');
-    diyaHalo.classList.add('lit');
-
-    diyaFixture.addEventListener('click', () => {
-      weddingState.diyaLit = !weddingState.diyaLit;
-      if (weddingState.diyaLit) {
-        diyaFlame.classList.add('lit');
-        diyaHalo.classList.add('lit');
-        playBellChime(523.25, 2.0); // Resonant Mandir Bell
-        triggerPetalBurst(20, width * 0.75, height * 0.6);
-        if (diyaMantraBox) {
-          diyaMantraBox.style.boxShadow = '0 0 20px rgba(249, 115, 22, 0.6)';
-        }
-      } else {
-        diyaFlame.classList.remove('lit');
-        diyaHalo.classList.remove('lit');
-        if (diyaMantraBox) {
-          diyaMantraBox.style.boxShadow = 'none';
-        }
-      }
-    });
-  }
-
-
-
-  // ==========================================
-  // 10. DIGITAL BLESSING WALL / GUESTBOOK
+  // 6. DIGITAL BLESSING WALL / GUESTBOOK
   // ==========================================
   const defaultBlessings = [
     {

@@ -874,6 +874,22 @@ body {
   color: #f7ebe1;
 }
 
+.meta-val strong {
+  color: var(--gold-spark);
+}
+
+.card-ribbon.royal-ribbon {
+  background: linear-gradient(135deg, rgba(139, 14, 40, 0.92) 0%, rgba(70, 7, 20, 0.92) 100%);
+  color: #fff2c4;
+  border-color: #ffd700;
+}
+
+.card-ribbon.pooja-ribbon {
+  background: linear-gradient(135deg, rgba(180, 83, 9, 0.92) 0%, rgba(120, 53, 15, 0.92) 100%);
+  color: #ffedd5;
+  border-color: #f59e0b;
+}
+
 /* ==========================================================================
    INTERACTIVE FEATURES WITHIN EVENT CARDS
    ========================================================================== */
@@ -1192,29 +1208,37 @@ body {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(212, 175, 55, 0.4);
   color: var(--cream-soft);
-  padding: 10px 8px;
+  padding: 11px 10px;
   border-radius: 10px;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
 }
 
 .btn-card-action:hover {
-  background: rgba(212, 175, 55, 0.2);
+  background: rgba(212, 175, 55, 0.22);
   border-color: var(--gold-primary);
   color: #fff;
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
 }
 
 .btn-card-action.primary-gold {
   background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
   color: #1a0307;
   border: none;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
 }
 
 .btn-card-action.primary-gold:hover {
   background: linear-gradient(135deg, #edd064 0%, #bf9417 100%);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.55);
 }
 
 /* Featured Wedding Card Accent */
