@@ -121,21 +121,6 @@ body {
   box-shadow: var(--shadow-gold);
 }
 
-.disc-icon {
-  display: inline-block;
-  font-size: 1.2rem;
-  animation: spinSlow 8s linear infinite paused;
-}
-
-.music-playing .disc-icon {
-  animation-play-state: running;
-}
-
-@keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 /* ==========================================================================
    ROYAL ENVELOPE MODAL (Wax Seal Opening Ceremony)
    ========================================================================== */

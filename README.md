@@ -12,9 +12,6 @@ A grand, interactive, and culturally rich Indian wedding invitation web applicat
   - Realistic 3D royal envelope with a golden wax seal.
   - Interactive seal-breaking animation with auspicious Sanskrit shlokas and gentle unfold transitions.
 
-- **🪕 Traditional Shehnai & Sitar Ambiance**:
-  - Embedded background traditional Shehnai music player with floating toggle controls.
-
 - **🌸 Interactive Petals & Confetti Shower**:
   - Dynamic HTML5 canvas particle engine rendering falling rose and marigold petals.
   - On-demand "Shower Petals!" celebration button.
@@ -65,10 +62,9 @@ Then visit `http://localhost:8000`.
 ```
 wedding/
 ├── index.html           # Main semantic structure & interactive sections
-├── styles.css           # Premium Indian festive design system & animations
-├── script.js            # Particle canvas, audio controls, guestbook & animations
+├── styles.css           # Luxury ivory & white festive design system
+├── script.js            # Particle canvas, countdown, guestbook & animations
 ├── assets/
-│   ├── audio/           # Shehnai & celebration sound effects
 │   └── images/          # Festive hero and ceremony photography
 └── README.md
 ```

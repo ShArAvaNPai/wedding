@@ -29,8 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     poojaDate: localStorage.getItem('pooja_date') || 'Monday, 14th December 2026 • Ancestral Residence',
     haldiDabs: 0,
     blessingsCount: parseInt(localStorage.getItem('wedding_blessings_tally') || '1248', 10),
-    diyaLit: false,
-    musicPlaying: false
+    diyaLit: false
   };
 
   function updatePageDetails() {
@@ -51,12 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
   updatePageDetails();
 
   // ==========================================
-  // 2. TRADITIONAL INDIAN WEDDING SHEHNAI MUSIC & CHIME
-  // Uses authentic traditional Indian Shehnai audio with Web Audio synth fallback
+  // 2. SUBTLE CELEBRATION CHIME AUDIO
   // ==========================================
-  const weddingAudio = document.getElementById('weddingBgMusic');
   let audioCtx = null;
-  let melodyInterval = null;
 
   function initAudioContext() {
     if (!audioCtx) {
@@ -68,107 +64,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Auspicious Indian Raga Yaman/Bhairavi notes frequencies (Hz)
-  const ragaScale = [
-    261.63, // Sa (C4)
-    293.66, // Re (D4)
-    329.63, // Ga (E4)
-    349.23, // Ma (F4)
-    392.00, // Pa (G4)
-    440.00, // Dha (A4)
-    493.88, // Ni (B4)
-    523.25  // Sa' (C5)
-  ];
+  function playBellChime(freq = 523.25, duration = 1.0) {
+    try {
+      initAudioContext();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
 
-  function playBellChime(freq = 523.25, duration = 1.2) {
-    initAudioContext();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    
-    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + duration);
-  }
-
-  function playShehnaiNote(freq, duration = 0.8) {
-    if (!audioCtx) return;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'triangle'; // Gives reed shehnai overtone
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    
-    gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.15);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + duration);
-  }
-
-  function startSynthesizerMelody() {
-    initAudioContext();
-    const melodySeq = [0, 2, 4, 3, 2, 0, 4, 7, 6, 4, 2, 0];
-    let noteIdx = 0;
-    if (melodyInterval) clearInterval(melodyInterval);
-    melodyInterval = setInterval(() => {
-      if (!weddingState.musicPlaying) return;
-      const noteFreq = ragaScale[melodySeq[noteIdx % melodySeq.length]];
-      playShehnaiNote(noteFreq, 0.7);
-      noteIdx++;
-    }, 700);
-  }
-
-  function startAmbientWeddingMusic() {
-    weddingState.musicPlaying = true;
-    document.body.classList.add('music-playing');
-    const statusText = document.getElementById('musicStatusText');
-    if (statusText) statusText.textContent = 'On 🪕';
-
-    if (weddingAudio) {
-      weddingAudio.volume = 0.75;
-      const playPromise = weddingAudio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay fallback to Web Audio synthesizer
-          startSynthesizerMelody();
-        });
-      }
-    } else {
-      startSynthesizerMelody();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {
+      // Audio playback silently ignored if not supported
     }
-  }
-
-  function stopAmbientWeddingMusic() {
-    weddingState.musicPlaying = false;
-    document.body.classList.remove('music-playing');
-    const statusText = document.getElementById('musicStatusText');
-    if (statusText) statusText.textContent = 'Off';
-    if (weddingAudio) {
-      weddingAudio.pause();
-    }
-    if (melodyInterval) {
-      clearInterval(melodyInterval);
-      melodyInterval = null;
-    }
-  }
-
-  const musicToggleBtn = document.getElementById('musicToggleBtn');
-  if (musicToggleBtn) {
-    musicToggleBtn.addEventListener('click', () => {
-      if (weddingState.musicPlaying) {
-        stopAmbientWeddingMusic();
-      } else {
-        startAmbientWeddingMusic();
-      }
-    });
   }
 
   // ==========================================
@@ -322,10 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
         envelopeModal.classList.add('opened');
       }
       document.body.classList.remove('envelope-active');
-      // Auto-start ambient music if not yet playing
-      if (!weddingState.musicPlaying) {
-        startAmbientWeddingMusic();
-      }
     }, 700);
   }
 
