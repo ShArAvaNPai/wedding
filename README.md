@@ -1,8 +1,6 @@
-# 🪔 Shraddha weds Pranay — The Royal Wedding Invitation
+# 💍 Shraddha weds Pranay — The Royal Wedding Invitation
 
 A grand, interactive, and culturally rich Indian wedding invitation web application celebrating the wedding of **Shraddha & Pranay**.
-
-![Wedding Invitation](assets/images/hero.jpg)
 
 ---
 
@@ -64,8 +62,6 @@ wedding/
 ├── index.html           # Main semantic structure & interactive sections
 ├── styles.css           # Luxury ivory & white festive design system
 ├── script.js            # Particle canvas, countdown, guestbook & animations
-├── assets/
-│   └── images/          # Festive hero and ceremony photography
 └── README.md
 ```
 

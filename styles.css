@@ -389,82 +389,97 @@ body {
 }
 
 /* ==========================================================================
-   HERO SECTION
+   HERO SECTION (Royal Stationery Invitation Card)
    ========================================================================== */
 .hero-section {
   position: relative;
+  background: radial-gradient(circle at 50% 35%, #ffffff 0%, #fdfbf7 60%, #f7f1e4 100%);
+  border: 2px solid var(--gold-accent);
+  outline: 1px solid rgba(212, 175, 55, 0.35);
+  outline-offset: -10px;
   border-radius: var(--radius-lg);
-  overflow: hidden;
-  margin: 25px 0 40px;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
-  min-height: 580px;
+  box-shadow: 0 16px 50px rgba(180, 140, 70, 0.15), 0 4px 16px rgba(0, 0, 0, 0.04);
+  padding: 55px 24px 45px;
+  margin: 25px 0 45px;
+  min-height: 480px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  overflow: hidden;
 }
 
-.hero-bg-frame {
+.stationery-frame {
   position: absolute;
-  inset: 0;
+  inset: 16px;
+  border: 1px dashed rgba(212, 175, 55, 0.45);
+  border-radius: calc(var(--radius-lg) - 6px);
+  pointer-events: none;
   z-index: 1;
 }
 
-.hero-bg-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
-  transform: scale(1.02);
-  transition: transform 10s ease;
-}
-
-.hero-section:hover .hero-bg-image {
-  transform: scale(1.08);
-}
-
-.hero-overlay {
+.corner-flourish {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(25, 16, 12, 0.35) 0%,
-    rgba(30, 18, 14, 0.55) 50%,
-    rgba(20, 12, 10, 0.78) 100%
-  );
-  backdrop-filter: blur(1px);
+  font-size: 1.3rem;
+  color: var(--gold-primary);
+  line-height: 1;
+  user-select: none;
+  opacity: 0.7;
+}
+
+.corner-tl { top: 6px; left: 8px; transform: scaleX(1); }
+.corner-tr { top: 6px; right: 8px; transform: scaleX(-1); }
+.corner-bl { bottom: 6px; left: 8px; transform: scaleY(-1); }
+.corner-br { bottom: 6px; right: 8px; transform: scale(-1); }
+
+.hero-royal-crest {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.crest-emblem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff 0%, #faf4e8 100%);
+  border: 1.5px solid var(--gold-accent);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.2);
+  font-size: 1.6rem;
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
   max-width: 860px;
-  padding: 40px 24px;
+  padding: 10px 15px;
 }
 
 .badge-royal {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  color: #ffffff;
-  font-size: 0.82rem;
+  background: #faf4e8;
+  border: 1px solid var(--gold-accent);
+  color: var(--gold-deep);
+  font-size: 0.8rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 6px 18px;
+  padding: 6px 20px;
   border-radius: 20px;
   margin-bottom: 18px;
-  font-weight: 600;
-  backdrop-filter: blur(6px);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(180, 140, 70, 0.1);
 }
 
 .hero-intro {
   font-family: var(--font-editorial);
-  font-size: 1.15rem;
-  color: #f7ede1;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
   max-width: 680px;
-  margin: 0 auto 20px;
-  line-height: 1.5;
+  margin: 0 auto 24px;
+  line-height: 1.6;
 }
 
 .couple-names-wrap {
@@ -478,9 +493,9 @@ body {
 
 .bride-name, .groom-name {
   font-family: var(--font-serif-display);
-  font-size: 3.4rem;
-  color: #ffffff;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.4);
+  font-size: 3.8rem;
+  color: var(--text-primary);
+  text-shadow: 0 2px 10px rgba(184, 134, 11, 0.15);
   font-weight: 700;
   letter-spacing: 1px;
 }
@@ -489,18 +504,18 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--gold-light);
+  color: var(--gold-primary);
 }
 
 .heart-knot {
   font-size: 1.2rem;
-  color: #fbcfe8;
+  color: var(--gold-accent);
 }
 
 .weds-text {
   font-family: 'Great Vibes', cursive, var(--font-editorial);
-  font-size: 1.9rem;
-  color: var(--gold-light);
+  font-size: 2.2rem;
+  color: var(--gold-deep);
   font-style: italic;
 }
 
@@ -508,28 +523,27 @@ body {
   font-family: var(--font-editorial);
   font-style: italic;
   font-size: 1.15rem;
-  color: #f5eedc;
+  color: var(--text-secondary);
   margin-bottom: 30px;
 }
 
 /* Countdown Widget */
 .countdown-widget {
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: #ffffff;
+  border: 1px solid var(--gold-accent);
   border-radius: 16px;
-  padding: 18px 24px;
+  padding: 18px 26px;
   max-width: 480px;
   margin: 0 auto 32px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 25px rgba(180, 140, 70, 0.12);
 }
 
 .countdown-label {
   font-size: 0.78rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--gold-light);
-  font-weight: 600;
+  color: var(--gold-deep);
+  font-weight: 700;
   margin-bottom: 12px;
 }
 
@@ -548,24 +562,25 @@ body {
 
 .time-num {
   font-family: var(--font-serif-display);
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   line-height: 1;
 }
 
 .time-txt {
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  color: #f5eedc;
+  color: var(--text-muted);
   letter-spacing: 1px;
   margin-top: 4px;
+  font-weight: 600;
 }
 
 .time-sep {
   font-size: 1.6rem;
-  color: var(--gold-light);
-  font-weight: 300;
+  color: var(--gold-primary);
+  font-weight: 400;
 }
 
 .hero-actions {
@@ -600,9 +615,9 @@ body {
 }
 
 .btn-royal-outline {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: #ffffff;
+  color: var(--text-primary);
+  border: 1.5px solid var(--gold-accent);
   padding: 13px 26px;
   border-radius: 30px;
   font-weight: 600;
@@ -613,12 +628,13 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .btn-royal-outline:hover {
-  background: rgba(255, 255, 255, 0.3);
-  color: #ffffff;
+  background: #faf6ee;
+  color: var(--gold-deep);
+  border-color: var(--gold-deep);
   transform: translateY(-2px);
 }
 
@@ -763,21 +779,59 @@ body {
   border-color: #f59e0b;
 }
 
-.card-image-box {
+/* Ceremony Header (Replaces AI photography with bespoke regal crest) */
+.card-ceremony-header {
   position: relative;
-  height: 220px;
-  overflow: hidden;
+  padding: 42px 20px 24px;
+  text-align: center;
+  background: linear-gradient(145deg, #ffffff 0%, #faf6ee 100%);
+  border-bottom: 1px solid var(--gold-border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
+.ceremony-haldi-header {
+  background: linear-gradient(145deg, #ffffff 0%, #fefcf3 60%, #fdf8e8 100%);
 }
 
-.event-card:hover .card-img {
-  transform: scale(1.08);
+.ceremony-wedding-header {
+  background: linear-gradient(145deg, #ffffff 0%, #fdf9f0 60%, #faf3e2 100%);
+}
+
+.ceremony-pooja-header {
+  background: linear-gradient(145deg, #ffffff 0%, #fbf9f4 60%, #f7f2ea 100%);
+}
+
+.ceremony-icon-badge {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--gold-accent);
+  box-shadow: 0 6px 20px rgba(180, 140, 70, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.event-card:hover .ceremony-icon-badge {
+  transform: scale(1.12) rotate(4deg);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+  border-color: var(--gold-primary);
+}
+
+.ceremony-kicker {
+  font-family: var(--font-serif-display);
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  font-weight: 700;
 }
 
 .card-body {
