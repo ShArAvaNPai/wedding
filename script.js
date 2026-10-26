@@ -1,0 +1,738 @@
+/* ==========================================================================
+   THE ROYAL WEDDING INVITATION - JAVASCRIPT ENGINE
+   Interactive, Fun, Engaging Indian Wedding Web Experience
+   Celebration: Shraddha weds Pranay
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Auto-refresh stale localStorage if it still had the old placeholder names
+  if (localStorage.getItem('bride_name') === 'Ananya') {
+    localStorage.removeItem('bride_name');
+    localStorage.removeItem('groom_name');
+    localStorage.removeItem('wedding_date');
+    localStorage.removeItem('wedding_venue');
+    localStorage.removeItem('haldi_date');
+    localStorage.removeItem('pooja_date');
+    localStorage.removeItem('wedding_blessings_list');
+  }
+
+  // ==========================================
+  // 1. STATE & LOCAL STORAGE MANAGEMENT
+  // ==========================================
+  const weddingState = {
+    brideName: localStorage.getItem('bride_name') || 'Shraddha',
+    groomName: localStorage.getItem('groom_name') || 'Pranay',
+    weddingDate: localStorage.getItem('wedding_date') || 'Sunday, 13th December 2026',
+    weddingVenue: localStorage.getItem('wedding_venue') || 'Amrith Garden',
+    haldiDate: localStorage.getItem('haldi_date') || 'Saturday, 12th December 2026 • Rotary Club Manipal',
+    poojaDate: localStorage.getItem('pooja_date') || 'Monday, 14th December 2026 • Ancestral Residence',
+    haldiDabs: 0,
+    blessingsCount: parseInt(localStorage.getItem('wedding_blessings_tally') || '1248', 10),
+    diyaLit: false,
+    musicPlaying: false
+  };
+
+  function updatePageDetails() {
+    const brideElem = document.getElementById('displayBrideName');
+    const groomElem = document.getElementById('displayGroomName');
+    const weddingDateElem = document.getElementById('displayWeddingDate');
+    const weddingVenueElem = document.getElementById('displayWeddingVenue');
+    const haldiDateElem = document.getElementById('displayHaldiDate');
+    const poojaDateElem = document.getElementById('displayPoojaDate');
+
+    if (brideElem) brideElem.textContent = weddingState.brideName;
+    if (groomElem) groomElem.textContent = weddingState.groomName;
+    if (weddingDateElem) weddingDateElem.textContent = weddingState.weddingDate;
+    if (weddingVenueElem) weddingVenueElem.textContent = weddingState.weddingVenue;
+    if (haldiDateElem) haldiDateElem.textContent = weddingState.haldiDate;
+    if (poojaDateElem) poojaDateElem.textContent = weddingState.poojaDate;
+
+    // Update blessing button label
+    const blessBtn = document.getElementById('mandapBlessBtn');
+    if (blessBtn) {
+      const textElem = blessBtn.querySelector('.bless-text');
+      if (textElem) textElem.textContent = `Shower Blessings on ${weddingState.brideName} & ${weddingState.groomName}!`;
+    }
+  }
+  updatePageDetails();
+
+  // ==========================================
+  // 2. TRADITIONAL INDIAN WEDDING SHEHNAI MUSIC & CHIME
+  // Uses authentic traditional Indian Shehnai audio with Web Audio synth fallback
+  // ==========================================
+  const weddingAudio = document.getElementById('weddingBgMusic');
+  let audioCtx = null;
+  let melodyInterval = null;
+
+  function initAudioContext() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContext();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }
+
+  // Auspicious Indian Raga Yaman/Bhairavi notes frequencies (Hz)
+  const ragaScale = [
+    261.63, // Sa (C4)
+    293.66, // Re (D4)
+    329.63, // Ga (E4)
+    349.23, // Ma (F4)
+    392.00, // Pa (G4)
+    440.00, // Dha (A4)
+    493.88, // Ni (B4)
+    523.25  // Sa' (C5)
+  ];
+
+  function playBellChime(freq = 523.25, duration = 1.2) {
+    initAudioContext();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  }
+
+  function playShehnaiNote(freq, duration = 0.8) {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'triangle'; // Gives reed shehnai overtone
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    
+    gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  }
+
+  function startSynthesizerMelody() {
+    initAudioContext();
+    const melodySeq = [0, 2, 4, 3, 2, 0, 4, 7, 6, 4, 2, 0];
+    let noteIdx = 0;
+    if (melodyInterval) clearInterval(melodyInterval);
+    melodyInterval = setInterval(() => {
+      if (!weddingState.musicPlaying) return;
+      const noteFreq = ragaScale[melodySeq[noteIdx % melodySeq.length]];
+      playShehnaiNote(noteFreq, 0.7);
+      noteIdx++;
+    }, 700);
+  }
+
+  function startAmbientWeddingMusic() {
+    weddingState.musicPlaying = true;
+    document.body.classList.add('music-playing');
+    const statusText = document.getElementById('musicStatusText');
+    if (statusText) statusText.textContent = 'On 🪕';
+
+    if (weddingAudio) {
+      weddingAudio.volume = 0.75;
+      const playPromise = weddingAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay fallback to Web Audio synthesizer
+          startSynthesizerMelody();
+        });
+      }
+    } else {
+      startSynthesizerMelody();
+    }
+  }
+
+  function stopAmbientWeddingMusic() {
+    weddingState.musicPlaying = false;
+    document.body.classList.remove('music-playing');
+    const statusText = document.getElementById('musicStatusText');
+    if (statusText) statusText.textContent = 'Off';
+    if (weddingAudio) {
+      weddingAudio.pause();
+    }
+    if (melodyInterval) {
+      clearInterval(melodyInterval);
+      melodyInterval = null;
+    }
+  }
+
+  const musicToggleBtn = document.getElementById('musicToggleBtn');
+  if (musicToggleBtn) {
+    musicToggleBtn.addEventListener('click', () => {
+      if (weddingState.musicPlaying) {
+        stopAmbientWeddingMusic();
+      } else {
+        startAmbientWeddingMusic();
+      }
+    });
+  }
+
+  // ==========================================
+  // 3. FALLING MARIGOLD & ROSE PETALS ENGINE
+  // ==========================================
+  const canvas = document.getElementById('petalCanvas');
+  const ctx = canvas.getContext('2d');
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  const PETAL_COUNT = 38;
+  const petals = [];
+
+  class Petal {
+    constructor(isBurst = false, burstX = width / 2, burstY = height / 2) {
+      this.reset(isBurst, burstX, burstY);
+    }
+
+    reset(isBurst = false, burstX = width / 2, burstY = height / 2) {
+      if (isBurst) {
+        this.x = burstX;
+        this.y = burstY;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 3;
+        this.speedX = Math.cos(angle) * speed;
+        this.speedY = Math.sin(angle) * speed - 2;
+      } else {
+        this.x = Math.random() * width;
+        this.y = Math.random() * -height;
+        this.speedX = Math.random() * 1.5 - 0.75;
+        this.speedY = Math.random() * 1.8 + 1.2;
+      }
+
+      this.size = Math.random() * 12 + 10;
+      this.rotation = Math.random() * 360;
+      this.rotSpeed = Math.random() * 2 - 1;
+      this.oscillation = Math.random() * 2;
+      this.oscSpeed = Math.random() * 0.03 + 0.01;
+
+      // Varieties: 0 = Marigold orange, 1 = Marigold bright yellow, 2 = Rose crimson, 3 = Gold sparkle
+      const typeRand = Math.random();
+      if (typeRand < 0.4) {
+        this.type = 'marigold-orange';
+        this.color = '#f97316';
+        this.colorAccent = '#ea580c';
+      } else if (typeRand < 0.7) {
+        this.type = 'marigold-yellow';
+        this.color = '#facc15';
+        this.colorAccent = '#eab308';
+      } else if (typeRand < 0.9) {
+        this.type = 'rose-crimson';
+        this.color = '#e11d48';
+        this.colorAccent = '#9f1239';
+      } else {
+        this.type = 'gold-spark';
+        this.color = '#fde047';
+        this.colorAccent = '#eab308';
+      }
+    }
+
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX + Math.sin(this.oscillation) * 0.8;
+      this.oscillation += this.oscSpeed;
+      this.rotation += this.rotSpeed;
+
+      if (this.y > height + 20) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate((this.rotation * Math.PI) / 180);
+
+      // Draw petal shape
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(this.size / 2, -this.size / 1.5, this.size, 0);
+      ctx.quadraticCurveTo(this.size / 2, this.size / 1.5, 0, 0);
+
+      const grad = ctx.createRadialGradient(
+        this.size / 2, 0, 1,
+        this.size / 2, 0, this.size
+      );
+      grad.addColorStop(0, this.color);
+      grad.addColorStop(1, this.colorAccent);
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      ctx.restore();
+    }
+  }
+
+  // Initialize petals
+  for (let i = 0; i < PETAL_COUNT; i++) {
+    petals.push(new Petal());
+  }
+
+  function triggerPetalBurst(count = 35, x = width / 2, y = height / 3) {
+    for (let i = 0; i < count; i++) {
+      petals.push(new Petal(true, x, y));
+    }
+    // Limit max petals to avoid memory overload
+    if (petals.length > 120) {
+      petals.splice(0, petals.length - 120);
+    }
+    playBellChime(659.25, 0.8);
+  }
+
+  function animatePetals() {
+    ctx.clearRect(0, 0, width, height);
+    petals.forEach((p) => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animatePetals);
+  }
+  animatePetals();
+
+  // Petal burst button
+  const petalBurstBtn = document.getElementById('petalBurstBtn');
+  if (petalBurstBtn) {
+    petalBurstBtn.addEventListener('click', (e) => {
+      triggerPetalBurst(40, width / 2, height / 2);
+    });
+  }
+
+  // ==========================================
+  // 4. ROYAL ENVELOPE OPENING CEREMONY
+  // ==========================================
+  const envelopeModal = document.getElementById('envelopeModal');
+  const royalEnvelope = document.getElementById('royalEnvelope');
+  const waxSealBtn = document.getElementById('waxSealBtn');
+  const openInviteDirectBtn = document.getElementById('openInviteDirectBtn');
+  const reopenEnvelopeBtn = document.getElementById('reopenEnvelopeBtn');
+
+  function openEnvelope() {
+    if (royalEnvelope) royalEnvelope.classList.add('unflapping');
+    playBellChime(587.33, 1.2);
+    triggerPetalBurst(50, width / 2, height / 2);
+
+    setTimeout(() => {
+      if (envelopeModal) {
+        envelopeModal.classList.add('opened');
+      }
+      document.body.classList.remove('envelope-active');
+      // Auto-start ambient music if not yet playing
+      if (!weddingState.musicPlaying) {
+        startAmbientWeddingMusic();
+      }
+    }, 700);
+  }
+
+  if (waxSealBtn) waxSealBtn.addEventListener('click', openEnvelope);
+  if (royalEnvelope) royalEnvelope.addEventListener('click', openEnvelope);
+  if (openInviteDirectBtn) openInviteDirectBtn.addEventListener('click', openEnvelope);
+
+  if (reopenEnvelopeBtn) {
+    reopenEnvelopeBtn.addEventListener('click', () => {
+      if (envelopeModal) {
+        envelopeModal.classList.remove('opened');
+        if (royalEnvelope) royalEnvelope.classList.remove('unflapping');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
+
+  // ==========================================
+  // 5. LIVE COUNTDOWN TIMER
+  // Target: Sunday, 13th December 2026, 11:15 AM (Auspicious Muhurtham)
+  // ==========================================
+  function updateCountdown() {
+    const targetDate = new Date('2026-12-13T11:15:00').getTime();
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    const daysElem = document.getElementById('daysCount');
+    const hoursElem = document.getElementById('hoursCount');
+    const minsElem = document.getElementById('minsCount');
+    const secsElem = document.getElementById('secsCount');
+
+    if (diff > 0) {
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      if (daysElem) daysElem.textContent = String(days).padStart(2, '0');
+      if (hoursElem) hoursElem.textContent = String(hours).padStart(2, '0');
+      if (minsElem) minsElem.textContent = String(mins).padStart(2, '0');
+      if (secsElem) secsElem.textContent = String(secs).padStart(2, '0');
+    } else {
+      if (daysElem) daysElem.textContent = '00';
+      if (hoursElem) hoursElem.textContent = '00';
+      if (minsElem) minsElem.textContent = '00';
+      if (secsElem) secsElem.textContent = '00';
+    }
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ==========================================
+  // 6. EVENT CARD 1: INTERACTIVE HALDI UBTAN GAME
+  // ==========================================
+  const ubtanBowlBtn = document.getElementById('ubtanBowlBtn');
+  const haldiSpotsContainer = document.getElementById('haldiSpotsContainer');
+  const haldiCounter = document.getElementById('haldiCounter');
+  const haldiFeedbackMsg = document.getElementById('haldiFeedbackMsg');
+  const haldiAvatar = document.getElementById('haldiAvatar');
+
+  const haldiMessages = [
+    "A touch of golden sunshine for our bride Shraddha! ✨",
+    "Glow, Shraddha, glow! Turmeric looks breathtaking on you! 💛",
+    "Haldi swag level: Rising! Rotary Club Manipal is celebrating! 🌼",
+    "Warning: Extreme bridal radiance detected! 😍",
+    "Pranay is definitely going to be speechless! 😄",
+    "No cheeks left untouched! Perfect haldi joy! 🏵️",
+    "Radiance overload! Queen Shraddha of the Haldi! 👑",
+    "Auspicious blessings multiplying with each dab! 🪔",
+    "Pure golden goddess vibes! ✨💛✨",
+    "🎉 MAXIMUM HALDI RADIANCE ACHIEVED! Ready for Amrith Garden!"
+  ];
+
+  if (ubtanBowlBtn && haldiSpotsContainer) {
+    ubtanBowlBtn.addEventListener('click', () => {
+      weddingState.haldiDabs++;
+      playBellChime(440 + weddingState.haldiDabs * 25, 0.4);
+
+      // Create a haldi dab spot
+      const spot = document.createElement('div');
+      spot.className = 'haldi-spot';
+      // Random coordinates around bride face
+      const topPct = Math.random() * 50 + 20;
+      const leftPct = Math.random() * 50 + 25;
+      spot.style.top = `${topPct}%`;
+      spot.style.left = `${leftPct}%`;
+      haldiSpotsContainer.appendChild(spot);
+
+      // Update count & message
+      if (haldiCounter) {
+        haldiCounter.textContent = Math.min(weddingState.haldiDabs, 10);
+      }
+
+      const msgIndex = Math.min(weddingState.haldiDabs - 1, haldiMessages.length - 1);
+      if (haldiFeedbackMsg) {
+        haldiFeedbackMsg.textContent = haldiMessages[msgIndex];
+      }
+
+      // Add bounce to avatar
+      if (haldiAvatar) {
+        haldiAvatar.style.transform = 'scale(1.1)';
+        setTimeout(() => (haldiAvatar.style.transform = 'scale(1)'), 200);
+      }
+
+      // If reached 10, trigger golden celebration burst!
+      if (weddingState.haldiDabs === 10) {
+        triggerPetalBurst(50, width * 0.25, height * 0.6);
+      }
+    });
+  }
+
+  // ==========================================
+  // 7. EVENT CARD 2: SHOWER AKSHATA & BLESSINGS
+  // ==========================================
+  const mandapBlessBtn = document.getElementById('mandapBlessBtn');
+  const liveBlessingCount = document.getElementById('liveBlessingCount');
+
+  if (mandapBlessBtn) {
+    mandapBlessBtn.addEventListener('click', (e) => {
+      weddingState.blessingsCount++;
+      localStorage.setItem('wedding_blessings_tally', weddingState.blessingsCount);
+
+      if (liveBlessingCount) {
+        liveBlessingCount.textContent = weddingState.blessingsCount.toLocaleString();
+      }
+
+      // Visual feedback
+      mandapBlessBtn.style.transform = 'scale(0.95)';
+      setTimeout(() => (mandapBlessBtn.style.transform = 'scale(1)'), 150);
+
+      // Trigger blessing bell & petal shower
+      const rect = mandapBlessBtn.getBoundingClientRect();
+      triggerPetalBurst(35, rect.left + rect.width / 2, rect.top);
+      playBellChime(698.46, 1.4); // Auspicious temple chime
+    });
+  }
+
+  // ==========================================
+  // 8. EVENT CARD 3: SATYANARAYAN POOJA DIYA LIGHT
+  // ==========================================
+  const diyaFixture = document.getElementById('diyaFixture');
+  const diyaFlame = document.getElementById('diyaFlame');
+  const diyaHalo = document.getElementById('diyaHalo');
+  const diyaMantraBox = document.getElementById('diyaMantraBox');
+
+  if (diyaFixture && diyaFlame && diyaHalo) {
+    // Start with a soft lit flame
+    diyaFlame.classList.add('lit');
+    diyaHalo.classList.add('lit');
+
+    diyaFixture.addEventListener('click', () => {
+      weddingState.diyaLit = !weddingState.diyaLit;
+      if (weddingState.diyaLit) {
+        diyaFlame.classList.add('lit');
+        diyaHalo.classList.add('lit');
+        playBellChime(523.25, 2.0); // Resonant Mandir Bell
+        triggerPetalBurst(20, width * 0.75, height * 0.6);
+        if (diyaMantraBox) {
+          diyaMantraBox.style.boxShadow = '0 0 20px rgba(249, 115, 22, 0.6)';
+        }
+      } else {
+        diyaFlame.classList.remove('lit');
+        diyaHalo.classList.remove('lit');
+        if (diyaMantraBox) {
+          diyaMantraBox.style.boxShadow = 'none';
+        }
+      }
+    });
+  }
+
+
+
+  // ==========================================
+  // 10. DIGITAL BLESSING WALL / GUESTBOOK
+  // ==========================================
+  const defaultBlessings = [
+    {
+      author: "Rahul Bhaiya & Family",
+      relation: "Bride's Sibling",
+      sticker: "🪔",
+      text: "To our princess sister Shraddha, you deserve all the love and happiness in the universe. Pranay, you're officially welcomed to the family! Blessings and infinite joy! ❤️",
+      time: "Just now"
+    },
+    {
+      author: "Manipal Cousin Squad",
+      relation: "Cousin Squad",
+      sticker: "💛",
+      text: "Haldi outfits for Rotary Club are ready and Amrith Garden will be legendary! We can't wait to dance our hearts out for Shraddha & Pranay!",
+      time: "2 hours ago"
+    },
+    {
+      author: "Dadi & Dadaji",
+      relation: "Loving Elder",
+      sticker: "🌸",
+      text: "सदा सुहागन रहो, आयुष्मान भव। May Lord Satyanarayan shower divine health, prosperity, and perpetual happiness on Shraddha & Pranay's sacred journey.",
+      time: "Yesterday"
+    }
+  ];
+
+  let storedBlessings = [];
+  try {
+    storedBlessings = JSON.parse(localStorage.getItem('wedding_blessings_list') || 'null');
+  } catch (err) {
+    storedBlessings = null;
+  }
+  if (!storedBlessings || storedBlessings.length === 0) {
+    storedBlessings = defaultBlessings;
+  }
+
+  const blessingsWallGrid = document.getElementById('blessingsWallGrid');
+  const blessingForm = document.getElementById('blessingForm');
+  const stickerSelector = document.getElementById('stickerSelector');
+  let selectedSticker = "🪔";
+
+  function renderBlessings() {
+    if (!blessingsWallGrid) return;
+    blessingsWallGrid.innerHTML = storedBlessings
+      .map(
+        (b) => `
+      <div class="blessing-card">
+        <div class="blessing-card-header">
+          <div class="author-wrap">
+            <span class="card-sticker">${b.sticker}</span>
+            <div>
+              <div class="card-author-name">${escapeHTML(b.author)}</div>
+              <span class="card-author-relation">${escapeHTML(b.relation)}</span>
+            </div>
+          </div>
+          <span class="card-timestamp">${b.time}</span>
+        </div>
+        <p class="card-message-text">${escapeHTML(b.text)}</p>
+      </div>
+    `
+      )
+      .join('');
+  }
+  renderBlessings();
+
+  if (stickerSelector) {
+    const stickerBtns = stickerSelector.querySelectorAll('.sticker-opt');
+    stickerBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        stickerBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedSticker = btn.dataset.sticker;
+      });
+    });
+  }
+
+  if (blessingForm) {
+    blessingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const authorInput = document.getElementById('blessingAuthor');
+      const relationInput = document.getElementById('blessingRelation');
+      const textInput = document.getElementById('blessingText');
+
+      if (!authorInput || !textInput) return;
+
+      const newBlessing = {
+        author: authorInput.value.trim(),
+        relation: relationInput ? relationInput.value : "Guest",
+        sticker: selectedSticker,
+        text: textInput.value.trim(),
+        time: "Just now"
+      };
+
+      storedBlessings.unshift(newBlessing);
+      localStorage.setItem('wedding_blessings_list', JSON.stringify(storedBlessings));
+
+      // Reset form & re-render
+      authorInput.value = '';
+      textInput.value = '';
+      renderBlessings();
+
+      triggerPetalBurst(30, width / 2, height / 2);
+      playBellChime(659.25, 0.8);
+    });
+  }
+
+  // Helper escape
+  function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+      tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag)
+    );
+  }
+
+
+
+  // ==========================================
+  // 12. ADD TO CALENDAR (.ICS FILE GENERATION)
+  // ==========================================
+  window.downloadIcs = function(eventName, startIsoStr, venue, desc) {
+    const startDate = new Date(startIsoStr);
+    const endDate = new Date(startDate.getTime() + 3 * 60 * 60 * 1000); // 3 hours
+
+    function formatDate(d) {
+      return d.toISOString().replace(/-|:|\.\d+/g, '');
+    }
+
+    const icsContent = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Shraddha weds Pranay Wedding//Antigravity//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+SUMMARY:${eventName} - Shraddha & Pranay Wedding
+DESCRIPTION:${desc}
+LOCATION:${venue}
+DTSTART:${formatDate(startDate)}
+DTEND:${formatDate(endDate)}
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${eventName.replace(/\s+/g, '_')}_Shraddha_Pranay.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    playBellChime(523.25, 0.4);
+  };
+
+  // ==========================================
+  // 13. VENUE DIRECTIONS / MAP MODAL
+  // ==========================================
+  const mapModal = document.getElementById('mapModal');
+  const mapModalAddress = document.getElementById('mapModalAddress');
+  const googleMapsExternalLink = document.getElementById('googleMapsExternalLink');
+
+  window.openMapModal = function(venueName, customMapUrl) {
+    if (mapModalAddress) mapModalAddress.textContent = venueName;
+    if (googleMapsExternalLink) {
+      if (customMapUrl) {
+        googleMapsExternalLink.href = customMapUrl;
+      } else {
+        googleMapsExternalLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venueName)}`;
+      }
+    }
+    if (mapModal) mapModal.classList.remove('hidden');
+  };
+
+  window.closeMapModal = function() {
+    if (mapModal) mapModal.classList.add('hidden');
+  };
+
+  // ==========================================
+  // 14. CUSTOMIZATION / PERSONALIZER MODAL
+  // ==========================================
+  const customizeBtn = document.getElementById('customizeBtn');
+  const customizeModal = document.getElementById('customizeModal');
+  const customizeForm = document.getElementById('customizeForm');
+
+  if (customizeBtn && customizeModal) {
+    customizeBtn.addEventListener('click', () => {
+      // Pre-fill inputs with current state
+      document.getElementById('inputBrideName').value = weddingState.brideName;
+      document.getElementById('inputGroomName').value = weddingState.groomName;
+      document.getElementById('inputWeddingDate').value = weddingState.weddingDate;
+      document.getElementById('inputWeddingVenue').value = weddingState.weddingVenue;
+      document.getElementById('inputHaldiDate').value = weddingState.haldiDate;
+      document.getElementById('inputPoojaDate').value = weddingState.poojaDate;
+
+      customizeModal.classList.remove('hidden');
+    });
+  }
+
+  window.closeCustomizeModal = function() {
+    if (customizeModal) customizeModal.classList.add('hidden');
+  };
+
+  if (customizeForm) {
+    customizeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      weddingState.brideName = document.getElementById('inputBrideName').value.trim() || 'Shraddha';
+      weddingState.groomName = document.getElementById('inputGroomName').value.trim() || 'Pranay';
+      weddingState.weddingDate = document.getElementById('inputWeddingDate').value.trim();
+      weddingState.weddingVenue = document.getElementById('inputWeddingVenue').value.trim();
+      weddingState.haldiDate = document.getElementById('inputHaldiDate').value.trim();
+      weddingState.poojaDate = document.getElementById('inputPoojaDate').value.trim();
+
+      // Persist in localStorage
+      localStorage.setItem('bride_name', weddingState.brideName);
+      localStorage.setItem('groom_name', weddingState.groomName);
+      localStorage.setItem('wedding_date', weddingState.weddingDate);
+      localStorage.setItem('wedding_venue', weddingState.weddingVenue);
+      localStorage.setItem('haldi_date', weddingState.haldiDate);
+      localStorage.setItem('pooja_date', weddingState.poojaDate);
+
+      updatePageDetails();
+      closeCustomizeModal();
+      triggerPetalBurst(40, width / 2, height / 2);
+    });
+  }
+
+});

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shraddha weds Pranay | The Royal Wedding Celebrations</title>
+  <meta name="description" content="Join us in celebrating the wedding festivities of our beloved sister Shraddha with Pranay! Explore interactive cards for Haldi at Rotary Club Manipal, The Wedding at Amrith Garden, and Satyanarayan Pooja.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Rozha+One&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Favicon icon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪔</text></svg>">
+</head>
+<body class="envelope-active">
+
+  <!-- Traditional Indian Wedding Shehnai & Sitar Audio -->
+  <audio id="weddingBgMusic" loop preload="auto">
+    <source src="assets/audio/shehnai_wedding_traditional.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Interactive Falling Petals & Confetti Canvas -->
+  <canvas id="petalCanvas"></canvas>
+
+  <!-- Floating Audio & Celebration Controls Bar -->
+  <aside class="floating-controls" aria-label="Celebration Controls">
+    <button id="musicToggleBtn" class="control-btn" title="Toggle Traditional Wedding Shehnai Music" aria-label="Toggle Shehnai Music">
+      <span class="disc-icon">🪕</span>
+      <span class="btn-label">Shehnai <span id="musicStatusText">Off</span></span>
+    </button>
+    <button id="petalBurstBtn" class="control-btn" title="Shower Rose & Marigold Petals" aria-label="Shower Petals">
+      <span class="burst-icon">🌸</span>
+      <span class="btn-label">Petals!</span>
+    </button>
+    <button id="customizeBtn" class="control-btn" title="Edit Names, Dates & Venues" aria-label="Personalize Invitation">
+      <span class="edit-icon">✍️</span>
+      <span class="btn-label">Edit Details</span>
+    </button>
+  </aside>
+
+  <!-- ==============================================
+       ROYAL ENVELOPE OPENING CEREMONY (Entry Experience)
+       ============================================== -->
+  <div id="envelopeModal" class="envelope-overlay">
+    <div class="envelope-scene">
+      <div class="royal-envelope" id="royalEnvelope">
+        <div class="envelope-pocket"></div>
+        <div class="envelope-card-peek">
+          <div class="peek-ornament">ॐ</div>
+          <div class="peek-text">Shraddha &amp; Pranay</div>
+        </div>
+        <div class="envelope-flap" id="envelopeFlap">
+          <div class="wax-seal" id="waxSealBtn" role="button" tabindex="0" title="Click or Tap to Break Seal and Open Invitation">
+            <div class="wax-inner">
+              <span class="wax-symbol">✨</span>
+              <span class="wax-text">OPEN</span>
+            </div>
+            <div class="seal-glow"></div>
+          </div>
+        </div>
+      </div>
+      <div class="envelope-prompt">
+        <p class="traditional-shloka">॥ वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ । निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥</p>
+        <h2 class="prompt-title">Shraddha weds Pranay</h2>
+        <p class="prompt-sub">Tap the golden seal to unfold our sister Shraddha's wedding invitation</p>
+        <button id="openInviteDirectBtn" class="btn-gold-glow">Break Seal &amp; Open Invitation 🪔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       MAIN INVITATION CONTENT (Revealed After Envelope)
+       ============================================== -->
+  <div id="invitationContainer" class="main-container">
+
+    <!-- Top Auspicious Header -->
+    <header class="auspicious-header">
+      <div class="sacred-symbol">ॐ</div>
+      <p class="shloka-text">॥ श्री गणेशाय नमः ॥</p>
+      <div class="header-divider">
+        <span class="divider-line"></span>
+        <span class="divider-gem">✦</span>
+        <span class="divider-line"></span>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-bg-frame">
+        <img src="assets/images/hero.jpg" alt="Shraddha & Pranay Royal Wedding Portrait" class="hero-bg-image" id="heroCoupleImg">
+        <div class="hero-overlay"></div>
+      </div>
+
+      <div class="hero-content">
+        <span class="badge-royal">With the Blessings of our Ancestors &amp; Families</span>
+        <p class="hero-intro">Together with their families, cordially invite you to celebrate the wedding ceremonies of their beloved sister &amp; daughter</p>
+        
+        <div class="couple-names-wrap">
+          <h1 class="bride-name" id="displayBrideName">Shraddha</h1>
+          <div class="couple-ampersand">
+            <span class="heart-knot">❦</span>
+            <span class="weds-text">weds</span>
+            <span class="heart-knot">❦</span>
+          </div>
+          <h1 class="groom-name" id="displayGroomName">Pranay</h1>
+        </div>
+
+        <p class="family-tagline">"Two hearts, three auspicious days, countless memories of love, laughter &amp; blessings"</p>
+
+        <!-- Live Countdown Widget -->
+        <div class="countdown-widget" id="countdownWidget">
+          <div class="countdown-label">Countdown to 13th December • The Auspicious Vivaha</div>
+          <div class="countdown-grid">
+            <div class="time-block">
+              <span class="time-num" id="daysCount">50</span>
+              <span class="time-txt">Days</span>
+            </div>
+            <div class="time-sep">:</div>
+            <div class="time-block">
+              <span class="time-num" id="hoursCount">01</span>
+              <span class="time-txt">Hours</span>
+            </div>
+            <div class="time-sep">:</div>
+            <div class="time-block">
+              <span class="time-num" id="minsCount">25</span>
+              <span class="time-txt">Mins</span>
+            </div>
+            <div class="time-sep">:</div>
+            <div class="time-block">
+              <span class="time-num" id="secsCount">00</span>
+              <span class="time-txt">Secs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#events" class="btn-royal-primary">View Celebration Events ↓</a>
+          <a href="#guestbook" class="btn-royal-outline">Blessings Wall 💌</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Ribbon -->
+    <nav class="festive-nav" aria-label="Quick Navigation">
+      <a href="#events" class="nav-item">Ceremony Cards</a>
+      <a href="#blessingCounterSection" class="nav-item">Live Blessings</a>
+      <a href="#sisterStory" class="nav-item">Our Sister's Story</a>
+      <a href="#guestbook" class="nav-item">Blessings Wall</a>
+    </nav>
+
+    <!-- ==============================================
+         3 INTERACTIVE EVENT CARDS SECTION
+         1. Haldi Ceremony
+         2. The Royal Wedding (Muhurtham)
+         3. Shree Satyanarayan Pooja
+         ============================================== -->
+    <section class="events-section" id="events">
+      <div class="section-title-wrap">
+        <span class="section-subtitle">Three Auspicious Celebrations</span>
+        <h2 class="section-title">The Wedding Festivities</h2>
+        <div class="title-ornament">
+          <span class="line"></span>
+          <span class="icon">🌸</span>
+          <span class="line"></span>
+        </div>
+        <p class="section-desc">Each ceremony has its own joyful charm and sacred significance. Click inside each card to play with its interactive celebration feature!</p>
+      </div>
+
+      <div class="events-grid">
+
+        <!-- ----------------------------------------
+             CARD 1: HALDI CEREMONY (Interactive Ubtan)
+             ---------------------------------------- -->
+        <article class="event-card card-haldi" id="cardHaldi">
+          <div class="card-ribbon">Day 1 • Golden Sunshine</div>
+          
+          <div class="card-image-box">
+            <img src="assets/images/haldi.jpg" alt="Vibrant Haldi Ceremony Setup" class="card-img" loading="lazy">
+            <div class="card-img-badge">✨ Auspicious Haldi</div>
+          </div>
+
+          <div class="card-body">
+            <div class="event-theme-tag haldi-tag">Ubtan, Marigolds & Laughter</div>
+            <h3 class="event-title" id="displayHaldiTitle">The Haldi Ceremony</h3>
+            <p class="event-tagline">"Where love turns golden, turmeric flies high, and smiles shine the brightest!"</p>
+
+            <div class="event-meta-list">
+              <div class="meta-item">
+                <span class="meta-icon">📅</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Date & Day</strong>
+                  <span class="meta-val" id="displayHaldiDate">Saturday, 12th December 2026</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-icon">⏰</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Timing</strong>
+                  <span class="meta-val" id="displayHaldiTime">10:00 AM Onwards (Auspicious Ubtan &amp; Sangeet Vibes)</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-icon">📍</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Venue</strong>
+                  <span class="meta-val" id="displayHaldiVenue">Rotary Club Manipal</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-icon">👗</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Dress Code</strong>
+                  <span class="meta-val">Shades of Sunshine Yellow, Mustard & Floral Kurtas / Sarees</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Haldi Feature -->
+            <div class="interactive-feature-box haldi-interactive">
+              <div class="feature-header">
+                <span class="feature-sparkle">🟡</span>
+                <h4>Interactive Fun: Apply Haldi to Shraddha!</h4>
+              </div>
+              <p class="feature-instruction">Tap the golden turmeric bowl to apply ubtan & watch the sister glow!</p>
+              
+              <div class="haldi-game-area" id="haldiGameArea">
+                <div class="haldi-couple-avatar" id="haldiAvatar">
+                  <div class="avatar-face">
+                    <span class="avatar-emoji">👰</span>
+                    <span class="avatar-glow-ring"></span>
+                    <div id="haldiSpotsContainer"></div>
+                  </div>
+                  <div class="avatar-caption">Dabs of Haldi: <span id="haldiCounter">0</span> / 10</div>
+                </div>
+
+                <div class="ubtan-bowl" id="ubtanBowlBtn" role="button" tabindex="0" title="Click to dab Haldi!">
+                  <div class="bowl-paste"></div>
+                  <span class="bowl-spoon">🥄 Tap to Dab!</span>
+                </div>
+              </div>
+              <div class="haldi-feedback" id="haldiFeedbackMsg">Give our bride Shraddha that golden glow! ✨</div>
+            </div>
+
+            <!-- Card Actions -->
+            <div class="card-footer-actions">
+              <button class="btn-card-action" onclick="downloadIcs('Haldi Ceremony', '2026-12-12T10:00:00', 'Rotary Club Manipal', 'Haldi Ceremony of Shraddha with family and friends!')">
+                <span>🗓️ Add to Calendar</span>
+              </button>
+              <button class="btn-card-action" onclick="openMapModal('Rotary Club Manipal', 'https://maps.app.goo.gl/tNzw3mKBrCZXxGUD6')">
+                <span>📍 Get Directions (Rotary Club)</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ----------------------------------------
+             CARD 2: THE ROYAL WEDDING (Muhurtham & Reception)
+             ---------------------------------------- -->
+        <article class="event-card card-wedding featured-card" id="cardWedding">
+          <div class="card-ribbon royal-ribbon">Day 2 • The Big Day</div>
+
+          <div class="card-image-box">
+            <img src="assets/images/wedding.jpg" alt="Sacred Mandap and Royal Wedding Ceremony" class="card-img" loading="lazy">
+            <div class="card-img-badge gold-badge">👑 The Auspicious Vivaha</div>
+          </div>
+
+          <div class="card-body">
+            <div class="event-theme-tag wedding-tag">Sacred Pheras & Royal Feast</div>
+            <h3 class="event-title" id="displayWeddingTitle">The Royal Wedding (Muhurtham)</h3>
+            <p class="event-tagline">"Seven sacred steps around the holy fire, binding two hearts for lifetimes to come."</p>
+
+            <div class="event-meta-list">
+              <div class="meta-item">
+                <span class="meta-icon">📅</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Date & Day</strong>
+                  <span class="meta-val" id="displayWeddingDate">Sunday, 13th December 2026</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-icon">⏰</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Schedule</strong>
+                  <span class="meta-val" id="displayWeddingTime">
+                    Baraat Welcome: 9:30 AM • <strong>Auspicious Muhurtham: 11:15 AM</strong> • Grand Wedding Feast: 1:00 PM
+                  </span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-icon">📍</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Venue</strong>
+                  <span class="meta-val" id="displayWeddingVenue">Amrith Garden</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-icon">👗</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Dress Code</strong>
+                  <span class="meta-val">Royal Traditional Attire: Kanjeevaram Silks, Regal Sherwanis & Embroidered Lehengas</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Wedding Feature: Shower Akshata & Blessings -->
+            <div class="interactive-feature-box wedding-interactive">
+              <div class="feature-header">
+                <span class="feature-sparkle">🌹</span>
+                <h4>Interactive Fun: Shower Sacred Akshata & Petals</h4>
+              </div>
+              <p class="feature-instruction">Click the sacred Kalash to rain flowers & sacred rice on the couple!</p>
+
+              <div class="wedding-game-area">
+                <button class="mandap-bless-btn" id="mandapBlessBtn">
+                  <span class="bless-icon">🌺</span>
+                  <span class="bless-text">Shower Blessings on Shraddha & Pranay!</span>
+                  <span class="bless-subtext">Click for floral rainfall & temple bell</span>
+                </button>
+                <div class="blessing-tally">
+                  Sister's Live Blessing Counter: <strong id="liveBlessingCount">1,248</strong> showered!
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Actions -->
+            <div class="card-footer-actions">
+              <button class="btn-card-action primary-gold" onclick="downloadIcs('The Royal Wedding Muhurtham', '2026-12-13T10:00:00', 'Amrith Garden', 'Auspicious Vivaha Muhurtham & Feast of Shraddha & Pranay!')">
+                <span>🗓️ Add to Calendar</span>
+              </button>
+              <button class="btn-card-action" onclick="openMapModal('Amrith Garden', 'https://maps.app.goo.gl/pD4UbsMjKngb8E8u6')">
+                <span>📍 Get Directions (Amrith Garden)</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ----------------------------------------
+             CARD 3: SHREE SATYANARAYAN POOJA (Interactive Diya)
+             ---------------------------------------- -->
+        <article class="event-card card-pooja" id="cardPooja">
+          <div class="card-ribbon pooja-ribbon">Day 3 • Divine Blessings</div>
+
+          <div class="card-image-box">
+            <img src="assets/images/pooja.jpg" alt="Shree Satyanarayan Pooja Altar" class="card-img" loading="lazy">
+            <div class="card-img-badge saffron-badge">🪔 Sacred Sankalpa</div>
+          </div>
+
+          <div class="card-body">
+            <div class="event-theme-tag pooja-tag">Katha, Aarti & Maha Prasadam</div>
+            <h3 class="event-title" id="displayPoojaTitle">Shree Satyanarayan Pooja</h3>
+            <p class="event-tagline">"Beginning the new journey in grace, health and prosperity with Lord Satyanarayan's divine grace."</p>
+
+            <div class="event-meta-list">
+              <div class="meta-item">
+                <span class="meta-icon">📅</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Date & Day</strong>
+                  <span class="meta-val" id="displayPoojaDate">Monday, 14th December 2026</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-icon">⏰</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Timing</strong>
+                  <span class="meta-val" id="displayPoojaTime">9:30 AM (Sankalpa & Katha) followed by Aarti & Maha Prasadam at 12:30 PM</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-icon">📍</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Venue</strong>
+                  <span class="meta-val" id="displayPoojaVenue">Ancestral Residence / Mandir Hall</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-icon">👗</span>
+                <div class="meta-info">
+                  <strong class="meta-label">Dress Code</strong>
+                  <span class="meta-val">Auspicious Pastels, Sandalwood Silk Dhotis/Kurtas & Traditional Cotton Sarees</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Pooja Feature: Light the Diya -->
+            <div class="interactive-feature-box pooja-interactive">
+              <div class="feature-header">
+                <span class="feature-sparkle">🪔</span>
+                <h4>Interactive Fun: Light the Sacred Brass Diya</h4>
+              </div>
+              <p class="feature-instruction">Click the sacred lamp below to light the divine flame and seek blessings</p>
+
+              <div class="diya-interactive-wrap">
+                <div class="diya-fixture" id="diyaFixture" role="button" tabindex="0" title="Click to light or rekindle the Diya!">
+                  <div class="diya-glow-halo" id="diyaHalo"></div>
+                  <div class="diya-flame" id="diyaFlame">
+                    <div class="flame-core"></div>
+                    <div class="flame-sparkles"></div>
+                  </div>
+                  <div class="diya-brass-body">
+                    <span class="diya-symbol">ॐ</span>
+                  </div>
+                </div>
+
+                <div class="diya-mantra-box" id="diyaMantraBox">
+                  <span class="mantra-sanskrit">"ॐ श्री सत्यनारायणाय नमः"</span>
+                  <span class="mantra-meaning">May peace, happiness, and truth forever enlighten this home.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Actions -->
+            <div class="card-footer-actions">
+              <button class="btn-card-action" onclick="downloadIcs('Shree Satyanarayan Pooja', '2026-12-14T09:30:00', 'Ancestral Residence', 'Satyanarayan Katha followed by Aarti and Prasadam')">
+                <span>🗓️ Add to Calendar</span>
+              </button>
+              <button class="btn-card-action" onclick="openMapModal('Ancestral Residence / Mandir Hall')">
+                <span>📍 Get Directions</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         CEREMONY DRESS CODE & VIBES CHEAT SHEET
+         ============================================== -->
+    <section class="dress-code-section">
+      <div class="section-title-wrap">
+        <span class="section-subtitle">What To Wear</span>
+        <h2 class="section-title">Festive Style Guide</h2>
+        <div class="title-ornament">
+          <span class="line"></span>
+          <span class="icon">✨</span>
+          <span class="line"></span>
+        </div>
+      </div>
+
+      <div class="dress-cards-container">
+        <div class="dress-card yellow-theme">
+          <div class="dress-card-icon">🌼</div>
+          <h3>Haldi Vibes</h3>
+          <p class="color-palette-dots">
+            <span style="background: #F4A261" title="Sunset Orange"></span>
+            <span style="background: #FFB703" title="Turmeric Yellow"></span>
+            <span style="background: #FFF3B0" title="Champagne"></span>
+          </p>
+          <p class="dress-recommendation">Breezy Kurtas, Leheriya Dupattas, Yellow Floral Sarees. Be ready to get colorful!</p>
+        </div>
+
+        <div class="dress-card maroon-theme">
+          <div class="dress-card-icon">👑</div>
+          <h3>Wedding Vivaha</h3>
+          <p class="color-palette-dots">
+            <span style="background: #7D0E29" title="Royal Crimson"></span>
+            <span style="background: #D4AF37" title="Antique Gold"></span>
+            <span style="background: #1B4931" title="Emerald Green"></span>
+          </p>
+          <p class="dress-recommendation">Regal Sherwanis, Kanjeevarams, Heavy Zari Embroidered suits and royal jewelry.</p>
+        </div>
+
+        <div class="dress-card saffron-theme">
+          <div class="dress-card-icon">🪷</div>
+          <h3>Satyanarayan Pooja</h3>
+          <p class="color-palette-dots">
+            <span style="background: #E76F51" title="Saffron"></span>
+            <span style="background: #F4E2D8" title="Sandalwood Cream"></span>
+            <span style="background: #84A98C" title="Sage Green"></span>
+          </p>
+          <p class="dress-recommendation">Traditional Silk Kurtas, Elegant Pastel Salwars, or pure cotton handloom sarees.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         SISTER'S STORY / SIBLING TRIBUTE SECTION
+         (Personalized & Heartwarming for Brother/Sister)
+         ============================================== -->
+    <section class="story-section" id="sisterStory">
+      <div class="story-card">
+        <div class="story-badge">A Heartfelt Note from the Sibling</div>
+        <h2 class="story-title">To Our Beloved Sister, Shraddha ❤️</h2>
+        <p class="story-text">
+          From fighting over the television remote to secretly sneaking midnight snacks, watching you grow into this radiant, compassionate woman has been life's biggest privilege. 
+          As you embark on this beautiful adventure with <strong>Pranay</strong>, know that our house will miss your laughter, your drama, and your endless tea orders — but our hearts couldn't be fuller!
+        </p>
+        <div class="story-quote">
+          "A sister is a little bit of childhood that can never be lost. May your marriage with Pranay be filled with endless joy, adventures, and unconditional love!"
+        </div>
+        <div class="story-signoff">— With boundless love, Your Sibling & The Entire Family</div>
+      </div>
+    </section>
+
+
+
+    <!-- ==============================================
+         INTERACTIVE BLESSING WALL / GUESTBOOK
+         ============================================== -->
+    <section class="guestbook-section" id="guestbook">
+      <div class="section-title-wrap">
+        <span class="section-subtitle">Leave Love & Sisterly Advice</span>
+        <h2 class="section-title">The Royal Blessing Wall</h2>
+        <div class="title-ornament">
+          <span class="line"></span>
+          <span class="icon">💌</span>
+          <span class="line"></span>
+        </div>
+        <p class="section-desc">Leave a sweet wish, wedding advice, or tease the couple! Your message will be preserved in our family digital keepsake.</p>
+      </div>
+
+      <div class="guestbook-wrapper">
+        <!-- New Message Form -->
+        <form class="blessing-form" id="blessingForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="blessingAuthor">Your Name / Nickname *</label>
+              <input type="text" id="blessingAuthor" placeholder="e.g. Rahul Bhaiya, Simran Masi" required>
+            </div>
+            <div class="form-group">
+              <label for="blessingRelation">Relation to Bride/Groom</label>
+              <select id="blessingRelation">
+                <option value="Bride's Sister/Brother">Bride's Sibling</option>
+                <option value="Cousin Squad">Cousin Squad</option>
+                <option value="Bestie / School Friend">Bestie / Friend</option>
+                <option value="Loving Elder / Relative">Loving Elder</option>
+                <option value="Groom's Squad">Groom's Squad</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Pick a Celebratory Sticker</label>
+            <div class="sticker-selector" id="stickerSelector">
+              <button type="button" class="sticker-opt active" data-sticker="🪔">🪔</button>
+              <button type="button" class="sticker-opt" data-sticker="🌸">🌸</button>
+              <button type="button" class="sticker-opt" data-sticker="💛">💛</button>
+              <button type="button" class="sticker-opt" data-sticker="👑">👑</button>
+              <button type="button" class="sticker-opt" data-sticker="💍">💍</button>
+              <button type="button" class="sticker-opt" data-sticker="🥂">🥂</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="blessingText">Your Warm Message or Fun Advice *</label>
+            <textarea id="blessingText" rows="3" placeholder="Dear Ananya & Rohan, may your journey together be as magical as your Haldi glow..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-royal-primary full-width">Pin Your Blessing on the Wall 📌</button>
+        </form>
+
+        <!-- Live Blessing Cards Grid -->
+        <div class="blessings-wall-grid" id="blessingsWallGrid">
+          <!-- Dynamically populated from JS & LocalStorage -->
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="royal-footer">
+      <div class="footer-lotus">🪷</div>
+      <p class="footer-shloka">॥ मङ्गलं भगवान् विष्णुः मङ्गलं गरुडध्वजः । मङ्गलं पुण्डरीकाक्षो मङ्गलाय तनो हरिः ॥</p>
+      <p class="footer-names">With warm hearts & excitement: Shraddha, Pranay & Families</p>
+      <p class="footer-credit">Handcrafted with boundless love for our dearest sister Shraddha ❤️</p>
+      <div class="footer-reopen">
+        <button id="reopenEnvelopeBtn" class="link-btn">Re-play Royal Envelope Opening ✉️</button>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ==============================================
+       MAP MODAL POPUP
+       ============================================== -->
+  <div id="mapModal" class="modal-overlay hidden">
+    <div class="modal-dialog">
+      <button class="modal-close" onclick="closeMapModal()">&times;</button>
+      <h3 class="modal-title" id="mapModalTitle">Venue Location</h3>
+      <p class="modal-address" id="mapModalAddress">Amrith Garden</p>
+      
+      <div class="map-embed-placeholder">
+        <div class="map-art">🏛️ 🗺️ 📍</div>
+        <p>Interactive Directions Ready</p>
+        <a id="googleMapsExternalLink" href="https://maps.app.goo.gl/pD4UbsMjKngb8E8u6" target="_blank" rel="noopener noreferrer" class="btn-royal-primary">
+          Open in Google Maps App ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       CUSTOMIZE MODAL (Easy edit of Bride/Groom/Dates)
+       ============================================== -->
+  <div id="customizeModal" class="modal-overlay hidden">
+    <div class="modal-dialog">
+      <button class="modal-close" onclick="closeCustomizeModal()">&times;</button>
+      <h3 class="modal-title">Personalize This Wedding Invitation</h3>
+      <p class="modal-sub">Update names, dates, or venues for your sister's special day!</p>
+      
+      <form id="customizeForm" class="customize-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inputBrideName">Sister's Name (Bride)</label>
+            <input type="text" id="inputBrideName" value="Shraddha">
+          </div>
+          <div class="form-group">
+            <label for="inputGroomName">Brother-in-Law (Groom)</label>
+            <input type="text" id="inputGroomName" value="Pranay">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputWeddingDate">Wedding Date</label>
+          <input type="text" id="inputWeddingDate" value="Sunday, 13th December 2026">
+        </div>
+
+        <div class="form-group">
+          <label for="inputWeddingVenue">Wedding Venue</label>
+          <input type="text" id="inputWeddingVenue" value="Amrith Garden">
+        </div>
+
+        <div class="form-group">
+          <label for="inputHaldiDate">Haldi Date & Venue</label>
+          <input type="text" id="inputHaldiDate" value="Saturday, 12th December 2026 • Rotary Club Manipal">
+        </div>
+
+        <div class="form-group">
+          <label for="inputPoojaDate">Satyanarayan Pooja Date & Venue</label>
+          <input type="text" id="inputPoojaDate" value="Monday, 14th December 2026 • Ancestral Residence">
+        </div>
+
+        <div class="modal-btn-row">
+          <button type="submit" class="btn-royal-primary">Save & Update Invitation 💾</button>
+          <button type="button" class="btn-royal-outline" onclick="closeCustomizeModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main JavaScript Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
