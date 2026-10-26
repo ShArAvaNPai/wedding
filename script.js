@@ -213,24 +213,24 @@ document.addEventListener('DOMContentLoaded', () => {
       this.oscillation = Math.random() * 2;
       this.oscSpeed = Math.random() * 0.03 + 0.01;
 
-      // Varieties: 0 = Marigold orange, 1 = Marigold bright yellow, 2 = Rose crimson, 3 = Gold sparkle
+      // Varieties: 0 = Pure White Jasmine/Rose, 1 = Soft Blush Pink, 2 = Ivory Cream, 3 = Champagne Gold Sparkle
       const typeRand = Math.random();
-      if (typeRand < 0.4) {
-        this.type = 'marigold-orange';
-        this.color = '#f97316';
-        this.colorAccent = '#ea580c';
-      } else if (typeRand < 0.7) {
-        this.type = 'marigold-yellow';
-        this.color = '#facc15';
-        this.colorAccent = '#eab308';
-      } else if (typeRand < 0.9) {
-        this.type = 'rose-crimson';
-        this.color = '#e11d48';
-        this.colorAccent = '#9f1239';
+      if (typeRand < 0.45) {
+        this.type = 'jasmine-white';
+        this.color = '#ffffff';
+        this.colorAccent = '#f7f2ea';
+      } else if (typeRand < 0.75) {
+        this.type = 'blush-rose';
+        this.color = '#fed7e2';
+        this.colorAccent = '#f687b3';
+      } else if (typeRand < 0.90) {
+        this.type = 'ivory-cream';
+        this.color = '#faf5ee';
+        this.colorAccent = '#e2d7c5';
       } else {
         this.type = 'gold-spark';
-        this.color = '#fde047';
-        this.colorAccent = '#eab308';
+        this.color = '#d4af37';
+        this.colorAccent = '#eed885';
       }
     }
 
@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       author: "Rahul Bhaiya & Family",
       relation: "Bride's Sibling",
-      sticker: "🪔",
+      sticker: "💍",
       text: "To our princess sister Shraddha, you deserve all the love and happiness in the universe. Pranay, you're officially welcomed to the family! Blessings and infinite joy! ❤️",
       time: "Just now"
     },
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const blessingsWallGrid = document.getElementById('blessingsWallGrid');
   const blessingForm = document.getElementById('blessingForm');
   const stickerSelector = document.getElementById('stickerSelector');
-  let selectedSticker = "🪔";
+  let selectedSticker = "💍";
 
   function renderBlessings() {
     if (!blessingsWallGrid) return;
