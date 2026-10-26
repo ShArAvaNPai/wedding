@@ -969,67 +969,7 @@ body {
   box-shadow: 0 15px 40px rgba(180, 140, 70, 0.12);
 }
 
-/* ==========================================================================
-   STYLE GUIDE / DRESS CODE SECTION
-   ========================================================================== */
-.dress-code-section {
-  margin-bottom: 70px;
-}
 
-.dress-cards-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
-
-.dress-card {
-  background: #ffffff;
-  border: 1px solid var(--gold-border-subtle);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  text-align: center;
-  transition: var(--transition-smooth);
-  box-shadow: var(--shadow-card);
-}
-
-.dress-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--gold-accent);
-  box-shadow: var(--shadow-hover);
-}
-
-.dress-card-icon {
-  font-size: 2.2rem;
-  margin-bottom: 8px;
-}
-
-.dress-card h3 {
-  font-family: var(--font-serif-display);
-  font-size: 1.25rem;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-}
-
-.color-palette-dots {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.color-palette-dots span {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.12);
-}
-
-.dress-recommendation {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
 
 /* ==========================================================================
    SISTER'S STORY / SIBLING TRIBUTE SECTION
@@ -1415,12 +1355,6 @@ input:focus, select:focus, textarea:focus {
     grid-template-columns: 1fr;
     max-width: 580px;
     margin: 0 auto 50px;
-  }
-  
-  .dress-cards-container {
-    grid-template-columns: 1fr;
-    max-width: 500px;
-    margin: 0 auto;
   }
 
   .guestbook-wrapper {
