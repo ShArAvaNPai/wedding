@@ -1,0 +1,81 @@
+# 🪔 Shraddha weds Pranay — The Royal Wedding Invitation
+
+A grand, interactive, and culturally rich Indian wedding invitation web application celebrating the wedding of **Shraddha & Pranay**.
+
+![Wedding Invitation](assets/images/hero.jpg)
+
+---
+
+## ✨ Features & Highlights
+
+- **💌 Royal Envelope Opening Ceremony**:
+  - Realistic 3D royal envelope with a golden wax seal.
+  - Interactive seal-breaking animation with auspicious Sanskrit shlokas and gentle unfold transitions.
+
+- **🪕 Traditional Shehnai & Sitar Ambiance**:
+  - Embedded background traditional Shehnai music player with floating toggle controls.
+
+- **🌸 Interactive Petals & Confetti Shower**:
+  - Dynamic HTML5 canvas particle engine rendering falling rose and marigold petals.
+  - On-demand "Shower Petals!" celebration button.
+
+- **📜 Three Auspicious Ceremony Cards**:
+  1. **Haldi Ceremony**: Golden sunshine theme with interactive turmeric/ubtan blessings.
+  2. **The Royal Wedding (Muhurtham)**: Royal crimson & gold aesthetic with auspicious timings and venue directions.
+  3. **Shree Satyanarayan Pooja**: Serene divine blessing ceremony.
+
+- **🙏 Blessings Counter & Live Guestbook**:
+  - Interactive blessing button with sound effect and live counter.
+  - Real-time guestbook wall with customizable wishes stored locally.
+
+- **✍️ Personalization & Live Edit**:
+  - Floating customization tool allowing immediate editing of couple names, dates, and venues directly in the browser.
+
+- **📱 Fully Responsive & Mobile-Optimized**:
+  - Designed for smooth performance across mobile devices, tablets, and desktops.
+
+---
+
+## 🚀 Live Deployment on GitHub Pages
+
+You can host this invitation live on the web for free using GitHub Pages:
+
+1. Push this repository to GitHub.
+2. In your GitHub repository, navigate to **Settings** > **Pages**.
+3. Under **Branch**, select `main` and `/ (root)`, then click **Save**.
+4. Within 1-2 minutes, your live site will be accessible at:
+   `https://sharavanpai.github.io/wedding/`
+
+---
+
+## 💻 Local Preview
+
+Open `index.html` directly in any modern web browser, or use a local development server such as VS Code Live Server or Python:
+
+```bash
+# Using Python
+python -m http.server 8000
+```
+Then visit `http://localhost:8000`.
+
+---
+
+## 📂 Project Structure
+
+```
+wedding/
+├── index.html           # Main semantic structure & interactive sections
+├── styles.css           # Premium Indian festive design system & animations
+├── script.js            # Particle canvas, audio controls, guestbook & animations
+├── assets/
+│   ├── audio/           # Shehnai & celebration sound effects
+│   └── images/          # Festive hero and ceremony photography
+└── README.md
+```
+
+---
+
+## 🕊️ Auspicious Blessings
+
+> *॥ वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ । निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥*  
+> *May Lord Ganesha remove all obstacles and shower his eternal blessings.*
