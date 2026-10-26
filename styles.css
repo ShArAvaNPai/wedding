@@ -681,6 +681,23 @@ body {
 /* ==========================================================================
    THE 2 EVENT CARDS (Haldi & The Royal Wedding)
    ========================================================================== */
+.events-carousel-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.swipe-hint-badge {
+  display: none;
+}
+
+.carousel-arrow-btn {
+  display: none;
+}
+
+.carousel-nav-tabs {
+  display: none;
+}
+
 .events-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1218,13 +1235,153 @@ input:focus, select:focus, textarea:focus {
    ========================================================================== */
 @media (max-width: 1024px) {
   .events-grid {
-    grid-template-columns: 1fr;
-    max-width: 580px;
+    max-width: 820px;
+    gap: 24px;
     margin: 0 auto 50px;
   }
 
   .guestbook-wrapper {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Phones Swipeable Cards & Carousel */
+@media (max-width: 820px) {
+  .swipe-hint-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #faf4e8;
+    border: 1px solid var(--gold-accent);
+    color: var(--gold-deep);
+    padding: 7px 18px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-top: 14px;
+    box-shadow: 0 2px 10px rgba(180, 140, 70, 0.12);
+  }
+
+  .swipe-hint-badge .swipe-hand {
+    font-size: 1rem;
+    display: inline-block;
+    animation: handNudge 2s infinite ease-in-out;
+  }
+
+  @keyframes handNudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+  }
+
+  .events-carousel-wrap {
+    position: relative;
+    margin: 0 -10px;
+    padding: 0;
+  }
+
+  /* Horizontal swipeable flex track with native CSS scroll snap */
+  .events-grid {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 10px 14px 22px;
+    gap: 16px;
+    margin: 0 auto 12px;
+  }
+
+  .events-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .event-card {
+    flex: 0 0 calc(100vw - 48px);
+    max-width: 420px;
+    min-width: calc(100vw - 48px);
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    box-shadow: 0 10px 30px rgba(180, 140, 70, 0.15);
+    margin: 0;
+    transform: none !important;
+  }
+
+  .carousel-arrow-btn {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1.5px solid var(--gold-accent);
+    color: var(--gold-deep);
+    font-size: 1.6rem;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+    cursor: pointer;
+    z-index: 10;
+    transition: var(--transition-smooth);
+    padding: 0;
+    user-select: none;
+  }
+
+  .carousel-arrow-btn:active {
+    background: #faf4e8;
+    transform: translateY(-50%) scale(0.92);
+  }
+
+  .carousel-arrow-btn.prev-btn {
+    left: 4px;
+  }
+
+  .carousel-arrow-btn.next-btn {
+    right: 4px;
+  }
+
+  .carousel-nav-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 8px auto 45px;
+  }
+
+  .carousel-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border-radius: 25px;
+    background: #ffffff;
+    border: 1.5px solid var(--gold-border-subtle);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .carousel-tab.active {
+    background: #faf4e8;
+    border-color: var(--gold-accent);
+    color: var(--gold-deep);
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.24);
+    transform: scale(1.05);
+  }
+
+  .tab-badge {
+    font-size: 1.15rem;
   }
 }
 

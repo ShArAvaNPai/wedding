@@ -167,9 +167,20 @@
         </div>
         <p class="section-desc">Join us in celebrating each sacred milestone as two families unite in love, joy, and
           blessings.</p>
+
+        <!-- Swipe Indicator for Mobile Screens -->
+        <div class="swipe-hint-badge" id="swipeHint">
+          <span class="swipe-hand">👈</span>
+          <span class="swipe-text">Swipe to explore ceremonies</span>
+          <span class="swipe-hand">👉</span>
+        </div>
       </div>
 
-      <div class="events-grid">
+      <!-- Events Carousel Container -->
+      <div class="events-carousel-wrap">
+        <button class="carousel-arrow-btn prev-btn" id="carouselPrevBtn" aria-label="Previous Ceremony">‹</button>
+
+        <div class="events-grid" id="eventsGrid">
 
         <!-- ----------------------------------------
              CARD 1: HALDI CEREMONY
@@ -299,9 +310,20 @@
             </div>
           </div>
         </article>
+        </div>
+        <button class="carousel-arrow-btn next-btn" id="carouselNextBtn" aria-label="Next Ceremony">›</button>
+      </div>
 
-
-
+      <!-- Carousel Navigation Tabs for Mobile -->
+      <div class="carousel-nav-tabs" id="carouselNavTabs">
+        <button type="button" class="carousel-tab active" id="tabHaldi" data-index="0">
+          <span class="tab-badge">🌼</span>
+          <span class="tab-name">Day 1 • Haldi</span>
+        </button>
+        <button type="button" class="carousel-tab" id="tabWedding" data-index="1">
+          <span class="tab-badge">👑</span>
+          <span class="tab-name">Day 2 • Vivaha</span>
+        </button>
       </div>
     </section>
 

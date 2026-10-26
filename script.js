@@ -285,6 +285,112 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
 
   // ==========================================
+  // 5.5 MOBILE SWIPEABLE CARDS CONTROLLER
+  // ==========================================
+  const eventsGrid = document.getElementById('eventsGrid');
+  const carouselPrevBtn = document.getElementById('carouselPrevBtn');
+  const carouselNextBtn = document.getElementById('carouselNextBtn');
+  const tabHaldi = document.getElementById('tabHaldi');
+  const tabWedding = document.getElementById('tabWedding');
+  const cardHaldi = document.getElementById('cardHaldi');
+  const cardWedding = document.getElementById('cardWedding');
+
+  if (eventsGrid && tabHaldi && tabWedding) {
+    const cards = [cardHaldi, cardWedding];
+    const tabs = [tabHaldi, tabWedding];
+
+    function setActiveTab(index) {
+      tabs.forEach((tab, i) => {
+        if (i === index) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+      if (carouselPrevBtn) {
+        carouselPrevBtn.style.opacity = index === 0 ? '0.35' : '1';
+        carouselPrevBtn.style.pointerEvents = index === 0 ? 'none' : 'auto';
+      }
+      if (carouselNextBtn) {
+        carouselNextBtn.style.opacity = index === cards.length - 1 ? '0.35' : '1';
+        carouselNextBtn.style.pointerEvents = index === cards.length - 1 ? 'none' : 'auto';
+      }
+    }
+
+    // Scroll smoothly to chosen card
+    function scrollToCard(index) {
+      if (!cards[index]) return;
+      const card = cards[index];
+      const gridLeft = eventsGrid.getBoundingClientRect().left;
+      const cardLeft = card.getBoundingClientRect().left;
+      const targetScroll = eventsGrid.scrollLeft + (cardLeft - gridLeft) - (eventsGrid.clientWidth - card.clientWidth) / 2;
+      eventsGrid.scrollTo({
+        left: Math.max(0, targetScroll),
+        behavior: 'smooth'
+      });
+      setActiveTab(index);
+    }
+
+    tabHaldi.addEventListener('click', () => scrollToCard(0));
+    tabWedding.addEventListener('click', () => scrollToCard(1));
+
+    if (carouselPrevBtn) {
+      carouselPrevBtn.addEventListener('click', () => scrollToCard(0));
+    }
+    if (carouselNextBtn) {
+      carouselNextBtn.addEventListener('click', () => scrollToCard(1));
+    }
+
+    // Update active tab on swipe / horizontal scroll
+    let scrollDebounce = null;
+    eventsGrid.addEventListener('scroll', () => {
+      clearTimeout(scrollDebounce);
+      scrollDebounce = setTimeout(() => {
+        const gridCenter = eventsGrid.scrollLeft + eventsGrid.clientWidth / 2;
+        let closestIndex = 0;
+        let minDiff = Infinity;
+        cards.forEach((card, index) => {
+          if (!card) return;
+          const cardCenter = card.offsetLeft + card.clientWidth / 2;
+          const diff = Math.abs(gridCenter - cardCenter);
+          if (diff < minDiff) {
+            minDiff = diff;
+            closestIndex = index;
+          }
+        });
+        setActiveTab(closestIndex);
+      }, 50);
+    }, { passive: true });
+
+    // Touch gesture swipe sensitivity
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    eventsGrid.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    eventsGrid.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchStartX - touchEndX;
+      const diffY = touchStartY - touchEndY;
+
+      // Only trigger horizontal swipe if horizontal movement exceeds vertical
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+        if (diffX > 0) {
+          scrollToCard(1); // Swipe left -> Go to Wedding
+        } else {
+          scrollToCard(0); // Swipe right -> Go to Haldi
+        }
+      }
+    }, { passive: true });
+
+    setActiveTab(0);
+  }
+
+  // ==========================================
   // 6. MESSAGES FROM THE LOVED ONES
   // ==========================================
   const defaultBlessings = [
