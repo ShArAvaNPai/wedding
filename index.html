@@ -140,7 +140,7 @@
 
         <div class="hero-actions">
           <a href="#events" class="btn-royal-primary">View Celebration Events ↓</a>
-          <a href="#guestbook" class="btn-royal-outline">Blessings Wall 💌</a>
+          <a href="#guestbook" class="btn-royal-outline">Messages from the Loved Ones 💌</a>
         </div>
       </div>
     </section>
@@ -149,7 +149,7 @@
     <nav class="festive-nav" aria-label="Quick Navigation">
       <a href="#events" class="nav-item">Ceremony Cards</a>
       <a href="#sisterStory" class="nav-item">Our Sister's Story</a>
-      <a href="#guestbook" class="nav-item">Blessings Wall</a>
+      <a href="#guestbook" class="nav-item">Messages from the Loved Ones</a>
     </nav>
 
     <!-- ==============================================
@@ -393,61 +393,37 @@
 
 
     <!-- ==============================================
-         INTERACTIVE BLESSING WALL / GUESTBOOK
+         MESSAGES FROM THE LOVED ONES
          ============================================== -->
     <section class="guestbook-section" id="guestbook">
       <div class="section-title-wrap">
-        <span class="section-subtitle">Leave Love & Sisterly Advice</span>
-        <h2 class="section-title">The Royal Blessing Wall</h2>
+        <span class="section-subtitle">Wishes &amp; Blessings</span>
+        <h2 class="section-title">Messages from the Loved Ones</h2>
         <div class="title-ornament">
           <span class="line"></span>
           <span class="icon">💌</span>
           <span class="line"></span>
         </div>
-        <p class="section-desc">Leave a sweet wish, wedding advice, or tease the couple! Your message will be preserved
+        <p class="section-desc">Leave a sweet wish, wedding advice, or heartfelt blessing for the couple! Your message will be preserved
           in our family digital keepsake.</p>
       </div>
 
       <div class="guestbook-wrapper">
         <!-- New Message Form -->
         <form class="blessing-form" id="blessingForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="blessingAuthor">Your Name / Nickname *</label>
-              <input type="text" id="blessingAuthor" placeholder="e.g. Rahul Bhaiya, Simran Masi" required>
-            </div>
-            <div class="form-group">
-              <label for="blessingRelation">Relation to Bride/Groom</label>
-              <select id="blessingRelation">
-                <option value="Bride's Sister/Brother">Bride's Sibling</option>
-                <option value="Cousin Squad">Cousin Squad</option>
-                <option value="Bestie / School Friend">Bestie / Friend</option>
-                <option value="Loving Elder / Relative">Loving Elder</option>
-                <option value="Groom's Squad">Groom's Squad</option>
-              </select>
-            </div>
-          </div>
-
           <div class="form-group">
-            <label>Pick a Celebratory Sticker</label>
-            <div class="sticker-selector" id="stickerSelector">
-              <button type="button" class="sticker-opt active" data-sticker="💍">💍</button>
-              <button type="button" class="sticker-opt" data-sticker="🌸">🌸</button>
-              <button type="button" class="sticker-opt" data-sticker="🤍">🤍</button>
-              <button type="button" class="sticker-opt" data-sticker="👑">👑</button>
-              <button type="button" class="sticker-opt" data-sticker="✨">✨</button>
-              <button type="button" class="sticker-opt" data-sticker="🥂">🥂</button>
-            </div>
+            <label for="blessingAuthor">Your Name / Nickname *</label>
+            <input type="text" id="blessingAuthor" placeholder="e.g. Rahul Bhaiya, Simran Masi" required>
           </div>
 
           <div class="form-group">
             <label for="blessingText">Your Warm Message or Fun Advice *</label>
             <textarea id="blessingText" rows="3"
-              placeholder="Dear Shraddha &amp; Pranay, wishing you a lifetime of love, laughter, and endless blessings..."
+              placeholder="Dear Shraddha &amp; Pranay, wishing you a lifetime of love, laughter, and endless happiness..."
               required></textarea>
           </div>
 
-          <button type="submit" class="btn-royal-primary full-width">Pin Your Blessing on the Wall 📌</button>
+          <button type="submit" class="btn-royal-primary full-width">Send Your Message to the Couple 💌</button>
         </form>
 
         <!-- Live Blessing Cards Grid -->

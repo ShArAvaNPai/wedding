@@ -19,9 +19,8 @@ A grand, interactive, and culturally rich Indian wedding invitation web applicat
   2. **The Royal Wedding (Muhurtham)**: Royal crimson & gold aesthetic with auspicious timings and venue directions.
   3. **Shree Satyanarayan Pooja**: Serene divine blessing ceremony.
 
-- **🙏 Blessings Counter & Live Guestbook**:
-  - Interactive blessing button with sound effect and live counter.
-  - Real-time guestbook wall with customizable wishes stored locally.
+- **💌 Messages from the Loved Ones**:
+  - Real-time digital guestbook where loved ones can leave heartfelt messages and wishes for the couple.
 
 - **✍️ Personalization & Live Edit**:
   - Floating customization tool allowing immediate editing of couple names, dates, and venues directly in the browser.

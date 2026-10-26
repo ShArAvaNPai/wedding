@@ -287,27 +287,21 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
 
   // ==========================================
-  // 6. DIGITAL BLESSING WALL / GUESTBOOK
+  // 6. MESSAGES FROM THE LOVED ONES
   // ==========================================
   const defaultBlessings = [
     {
       author: "Rahul Bhaiya & Family",
-      relation: "Bride's Sibling",
-      sticker: "💍",
-      text: "To our princess sister Shraddha, you deserve all the love and happiness in the universe. Pranay, you're officially welcomed to the family! Blessings and infinite joy! ❤️",
+      text: "To our princess sister Shraddha, you deserve all the love and happiness in the universe. Pranay, you're officially welcomed to the family! Infinite joy and blessings! ❤️",
       time: "Just now"
     },
     {
       author: "Manipal Cousin Squad",
-      relation: "Cousin Squad",
-      sticker: "💛",
       text: "Haldi outfits for Rotary Club are ready and Amrith Garden will be legendary! We can't wait to dance our hearts out for Shraddha & Pranay!",
       time: "2 hours ago"
     },
     {
       author: "Dadi & Dadaji",
-      relation: "Loving Elder",
-      sticker: "🌸",
       text: "सदा सुहागन रहो, आयुष्मान भव। May Lord Satyanarayan shower divine health, prosperity, and perpetual happiness on Shraddha & Pranay's sacred journey.",
       time: "Yesterday"
     }
@@ -325,8 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const blessingsWallGrid = document.getElementById('blessingsWallGrid');
   const blessingForm = document.getElementById('blessingForm');
-  const stickerSelector = document.getElementById('stickerSelector');
-  let selectedSticker = "💍";
 
   function renderBlessings() {
     if (!blessingsWallGrid) return;
@@ -336,11 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="blessing-card">
         <div class="blessing-card-header">
           <div class="author-wrap">
-            <span class="card-sticker">${b.sticker}</span>
-            <div>
-              <div class="card-author-name">${escapeHTML(b.author)}</div>
-              <span class="card-author-relation">${escapeHTML(b.relation)}</span>
-            </div>
+            <span class="card-sticker">💌</span>
+            <div class="card-author-name">${escapeHTML(b.author)}</div>
           </div>
           <span class="card-timestamp">${b.time}</span>
         </div>
@@ -352,36 +341,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   renderBlessings();
 
-  if (stickerSelector) {
-    const stickerBtns = stickerSelector.querySelectorAll('.sticker-opt');
-    stickerBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        stickerBtns.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        selectedSticker = btn.dataset.sticker;
-      });
-    });
-  }
-
   if (blessingForm) {
     blessingForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const authorInput = document.getElementById('blessingAuthor');
-      const relationInput = document.getElementById('blessingRelation');
       const textInput = document.getElementById('blessingText');
 
       if (!authorInput || !textInput) return;
 
       const newBlessing = {
         author: authorInput.value.trim(),
-        relation: relationInput ? relationInput.value : "Guest",
-        sticker: selectedSticker,
         text: textInput.value.trim(),
         time: "Just now"
       };
 
       storedBlessings.unshift(newBlessing);
-      localStorage.setItem('wedding_blessings_list', JSON.stringify(storedBlessings));
+      try {
+        localStorage.setItem('wedding_blessings_list', JSON.stringify(storedBlessings));
+      } catch (err) {}
 
       // Reset form & re-render
       authorInput.value = '';
