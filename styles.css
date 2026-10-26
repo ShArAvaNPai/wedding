@@ -21,7 +21,6 @@
   
   --haldi-tag-color: #b45309;
   --wedding-tag-color: #9f1239;
-  --pooja-tag-color: #c2410c;
   
   --text-primary: #231815;
   --text-secondary: #5c4f4a;
@@ -680,13 +679,14 @@ body {
 }
 
 /* ==========================================================================
-   THE 3 EVENT CARDS (Haldi, Wedding, Satyanarayan Pooja)
+   THE 2 EVENT CARDS (Haldi & The Royal Wedding)
    ========================================================================== */
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  margin-bottom: 60px;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 960px;
+  margin: 0 auto 60px;
+  gap: 32px;
 }
 
 .event-card {
@@ -730,12 +730,6 @@ body {
   border-color: #d4af37;
 }
 
-.card-ribbon.pooja-ribbon {
-  background: #fcf6ef;
-  color: #92400e;
-  border-color: #f59e0b;
-}
-
 /* Ceremony Header (Replaces AI photography with bespoke regal crest) */
 .card-ceremony-header {
   position: relative;
@@ -755,10 +749,6 @@ body {
 
 .ceremony-wedding-header {
   background: linear-gradient(145deg, #ffffff 0%, #fdf9f0 60%, #faf3e2 100%);
-}
-
-.ceremony-pooja-header {
-  background: linear-gradient(145deg, #ffffff 0%, #fbf9f4 60%, #f7f2ea 100%);
 }
 
 .ceremony-icon-badge {
@@ -809,7 +799,6 @@ body {
 
 .haldi-tag { color: var(--haldi-tag-color); }
 .wedding-tag { color: var(--wedding-tag-color); }
-.pooja-tag { color: var(--pooja-tag-color); }
 
 .event-title {
   font-family: var(--font-serif-display);

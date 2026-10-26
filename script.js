@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('pooja_date');
     localStorage.removeItem('wedding_blessings_list');
   }
+  localStorage.removeItem('pooja_date');
 
   // ==========================================
   // 1. STATE & LOCAL STORAGE MANAGEMENT
@@ -26,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     weddingDate: localStorage.getItem('wedding_date') || 'Sunday, 13th December 2026',
     weddingVenue: localStorage.getItem('wedding_venue') || 'Amrith Garden',
     haldiDate: localStorage.getItem('haldi_date') || 'Saturday, 12th December 2026 • Rotary Club Manipal',
-    poojaDate: localStorage.getItem('pooja_date') || 'Monday, 14th December 2026 • Ancestral Residence',
     haldiDabs: 0,
     blessingsCount: parseInt(localStorage.getItem('wedding_blessings_tally') || '1248', 10),
     diyaLit: false
@@ -38,14 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const weddingDateElem = document.getElementById('displayWeddingDate');
     const weddingVenueElem = document.getElementById('displayWeddingVenue');
     const haldiDateElem = document.getElementById('displayHaldiDate');
-    const poojaDateElem = document.getElementById('displayPoojaDate');
 
     if (brideElem) brideElem.textContent = weddingState.brideName;
     if (groomElem) groomElem.textContent = weddingState.groomName;
     if (weddingDateElem) weddingDateElem.textContent = weddingState.weddingDate;
     if (weddingVenueElem) weddingVenueElem.textContent = weddingState.weddingVenue;
     if (haldiDateElem) haldiDateElem.textContent = weddingState.haldiDate;
-    if (poojaDateElem) poojaDateElem.textContent = weddingState.poojaDate;
   }
   updatePageDetails();
 
@@ -302,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       author: "Dadi & Dadaji",
-      text: "सदा सुहागन रहो, आयुष्मान भव। May Lord Satyanarayan shower divine health, prosperity, and perpetual happiness on Shraddha & Pranay's sacred journey.",
+      text: "सदा सुहागन रहो, आयुष्मान भव। May the almighty shower divine health, prosperity, and perpetual happiness on Shraddha & Pranay's sacred journey.",
       time: "Yesterday"
     }
   ];
@@ -459,7 +457,6 @@ END:VCALENDAR`;
       document.getElementById('inputWeddingDate').value = weddingState.weddingDate;
       document.getElementById('inputWeddingVenue').value = weddingState.weddingVenue;
       document.getElementById('inputHaldiDate').value = weddingState.haldiDate;
-      document.getElementById('inputPoojaDate').value = weddingState.poojaDate;
 
       customizeModal.classList.remove('hidden');
     });
@@ -477,7 +474,6 @@ END:VCALENDAR`;
       weddingState.weddingDate = document.getElementById('inputWeddingDate').value.trim();
       weddingState.weddingVenue = document.getElementById('inputWeddingVenue').value.trim();
       weddingState.haldiDate = document.getElementById('inputHaldiDate').value.trim();
-      weddingState.poojaDate = document.getElementById('inputPoojaDate').value.trim();
 
       // Persist in localStorage
       localStorage.setItem('bride_name', weddingState.brideName);
@@ -485,7 +481,6 @@ END:VCALENDAR`;
       localStorage.setItem('wedding_date', weddingState.weddingDate);
       localStorage.setItem('wedding_venue', weddingState.weddingVenue);
       localStorage.setItem('haldi_date', weddingState.haldiDate);
-      localStorage.setItem('pooja_date', weddingState.poojaDate);
 
       updatePageDetails();
       closeCustomizeModal();

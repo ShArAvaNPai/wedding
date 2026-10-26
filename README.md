@@ -14,10 +14,9 @@ A grand, interactive, and culturally rich Indian wedding invitation web applicat
   - Dynamic HTML5 canvas particle engine rendering falling rose and marigold petals.
   - On-demand "Shower Petals!" celebration button.
 
-- **📜 Three Auspicious Ceremony Cards**:
-  1. **Haldi Ceremony**: Golden sunshine theme with interactive turmeric/ubtan blessings.
-  2. **The Royal Wedding (Muhurtham)**: Royal crimson & gold aesthetic with auspicious timings and venue directions.
-  3. **Shree Satyanarayan Pooja**: Serene divine blessing ceremony.
+- **📜 Auspicious Ceremony Cards**:
+  1. **Haldi Ceremony**: Mangala Snanam with golden turmeric theme at Rotary Club Manipal (5:00 PM).
+  2. **The Royal Wedding (Muhurtham)**: Auspicious Vivaha Muhurtham (10:00 AM) & royal feast at Amrith Garden.
 
 - **💌 Messages from the Loved Ones**:
   - Real-time digital guestbook where loved ones can leave heartfelt messages and wishes for the couple.
